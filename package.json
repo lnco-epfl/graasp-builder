@@ -24,7 +24,7 @@
     "@graasp/query-client": "3.14.0",
     "@graasp/sdk": "4.15.1",
     "@graasp/translations": "1.31.0",
-    "@graasp/ui": "4.20.2",
+    "@graasp/ui": "github:graasp/graasp-ui#remove-member-id-login",
     "@mui/icons-material": "5.15.21",
     "@mui/lab": "5.0.0-alpha.170",
     "@mui/material": "5.15.21",
