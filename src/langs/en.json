@@ -471,5 +471,6 @@
   "item.order": "Order",
   "MEMBER_VALIDATION_TITLE": "Account email needs to be verified",
   "MEMBER_VALIDATION_DESCRIPTION": "In order to use all features of Graasp you need to validate your account email. You will find more information in the link below.",
-  "MEMBER_VALIDATION_LINK_TEXT": "Learn more"
+  "MEMBER_VALIDATION_LINK_TEXT": "Learn more",
+  "ITEM_LOGIN_HELPER_SIGN_OUT": "You're logged in as {{email}}"
 }

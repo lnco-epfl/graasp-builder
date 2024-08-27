@@ -26,6 +26,7 @@ import MapItemsScreen from './pages/MapItemsScreen';
 import PublishedItemsScreen from './pages/PublishedItemsScreen';
 import RecycledItemsScreen from './pages/RecycledItemsScreen';
 import HomeScreen from './pages/home/HomeScreen';
+import ItemLoginWrapper from './pages/item/ItemLoginWrapper';
 import ItemPageLayout from './pages/item/ItemPageLayout';
 import ItemScreen from './pages/item/ItemScreen';
 import ItemScreenLayout from './pages/item/ItemScreenLayout';
@@ -93,12 +94,17 @@ const App = (): JSX.Element => {
           path={PUBLISHED_ITEMS_PATH}
           element={<PublishedWithAuthorization />}
         />
-        <Route path={buildItemPath()} element={<ItemScreenLayout />}>
-          <Route index element={<ItemScreen />} />
-          <Route element={<ItemPageLayout />}>
-            <Route path={ITEM_SHARE_PATH} element={<ItemSharingPage />} />
-            <Route path={ITEM_PUBLISH_PATH} element={<LibrarySettingsPage />} />
-            <Route path={ITEM_SETTINGS_PATH} element={<ItemSettingsPage />} />
+        <Route path={buildItemPath()} element={<ItemLoginWrapper />}>
+          <Route element={<ItemScreenLayout />}>
+            <Route index element={<ItemScreen />} />
+            <Route element={<ItemPageLayout />}>
+              <Route path={ITEM_SHARE_PATH} element={<ItemSharingPage />} />
+              <Route
+                path={ITEM_PUBLISH_PATH}
+                element={<LibrarySettingsPage />}
+              />
+              <Route path={ITEM_SETTINGS_PATH} element={<ItemSettingsPage />} />
+            </Route>
           </Route>
         </Route>
         <Route path={RECYCLE_BIN_PATH} element={<RecycleWithAuthorization />} />
