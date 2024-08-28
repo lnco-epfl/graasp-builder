@@ -1,5 +1,5 @@
 import { LoadingButton } from '@mui/lab';
-import { Typography } from '@mui/material';
+import { Stack, Typography } from '@mui/material';
 
 import {
   CompleteMember,
@@ -29,7 +29,13 @@ const RequestAccessContent = ({ member, itemId }: Props): JSX.Element => {
 
   if (request?.status === MembershipRequestStatus.Pending) {
     return (
-      <>
+      <Stack
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        height="100%"
+        gap={2}
+      >
         <Lock size={40} />
         <Typography variant="h3">
           {translateBuilder('You do not have access to this item')}
@@ -39,12 +45,18 @@ const RequestAccessContent = ({ member, itemId }: Props): JSX.Element => {
             'An admin needs to approve your request to access this item.',
           )}
         </Typography>
-      </>
+      </Stack>
     );
   }
 
   return (
-    <>
+    <Stack
+      direction="column"
+      justifyContent="center"
+      alignItems="center"
+      height="100%"
+      gap={2}
+    >
       <Lock size={40} />
       <Typography variant="h3">
         {translateBuilder('Request access to this item')}
@@ -67,7 +79,7 @@ const RequestAccessContent = ({ member, itemId }: Props): JSX.Element => {
           email: member.email,
         })}
       </Typography>
-    </>
+    </Stack>
   );
 };
 

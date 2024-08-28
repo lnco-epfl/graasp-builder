@@ -11,7 +11,7 @@ import {
 import { DiscriminatedItem, Invitation, PermissionLevel } from '@graasp/sdk';
 
 import { useBuilderTranslation } from '@/config/i18n';
-import { mutations } from '@/config/queryClient';
+import { hooks, mutations } from '@/config/queryClient';
 import {
   buildInvitationTableRowId,
   buildItemInvitationRowDeleteButtonId,
@@ -24,13 +24,11 @@ import TableRowPermission from './TableRowPermission';
 
 type Props = {
   item: DiscriminatedItem;
-  invitations?: Invitation[];
   emptyMessage?: string;
   readOnly?: boolean;
 };
 
 const InvitationsTable = ({
-  invitations,
   item,
   emptyMessage,
   readOnly = false,
@@ -39,6 +37,8 @@ const InvitationsTable = ({
   const { mutate: editInvitation } = mutations.usePatchInvitation();
   const { mutate: postInvitations } = mutations.usePostInvitations();
   const { mutate: deleteInvitation } = mutations.useDeleteInvitation();
+
+  const { data: invitations } = hooks.useItemInvitations(item?.id);
 
   const onDelete = (invitation: Invitation) => {
     deleteInvitation({ itemId: item.id, id: invitation.id });
