@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { useOutletContext } from 'react-router';
 
 import {
+  Skeleton,
   Table,
   TableBody,
   TableCell,
@@ -10,165 +10,182 @@ import {
   TableRow,
 } from '@mui/material';
 
-import {
-  AccountType,
-  DiscriminatedItem,
-  ItemMembership,
-  PermissionLevel,
-} from '@graasp/sdk';
-import { Loader } from '@graasp/ui';
+import { AccountType, PermissionLevel } from '@graasp/sdk';
+
+import groupby from 'lodash.groupby';
 
 import ErrorAlert from '@/components/common/ErrorAlert';
 import { OutletType } from '@/components/pages/item/type';
+import { selectHighestMemberships } from '@/utils/membership';
 
 import { useBuilderTranslation } from '../../../../config/i18n';
 import { hooks } from '../../../../config/queryClient';
 import { BUILDER } from '../../../../langs/constants';
-import DeleteItemMembershipDialog from '../DeleteItemMembershipDialog';
+import GuestItemMembershipTableRow from './GuestItemMembershipTableRow';
+import InvitationTableRow from './InvitationTableRow';
 import ItemMembershipTableRow from './ItemMembershipTableRow';
-import MembershipRequestTableRow from './MembershipRequestTableRow';
 
 type Props = {
-  item: DiscriminatedItem;
-  memberships: ItemMembership[];
   showEmail?: boolean;
 };
 
-const ItemMembershipsTable = ({
-  memberships,
-  showEmail = true,
-}: Props): JSX.Element => {
+const EMPTY_NAME_VALUE = '-';
+
+const ItemMembershipsTable = ({ showEmail = true }: Props): JSX.Element => {
   const { t: translateBuilder } = useBuilderTranslation();
 
   const { data: currentMember } = hooks.useCurrentMember();
-  const { item, canAdmin } = useOutletContext<OutletType>();
-  const { data: requests, isLoading } = hooks.useMembershipRequests(item.id, {
+  const { item, canWrite, canAdmin } = useOutletContext<OutletType>();
+  const { data: rawMemberships, isLoading: isMembershipsLoading } =
+    hooks.useItemMemberships(item?.id);
+  const { data: invitations, isLoading } = hooks.useItemInvitations(item.id, {
     enabled: canAdmin,
   });
 
-  const [open, setOpen] = useState(false);
-  const [membershipToDelete, setMembershipToDelete] =
-    useState<ItemMembership | null>(null);
-  const onDelete = (im: ItemMembership) => {
-    setMembershipToDelete(im);
-    setOpen(true);
-  };
+  if (rawMemberships) {
+    const hasOnlyOneAdmin =
+      rawMemberships.filter((per) => per.permission === PermissionLevel.Admin)
+        .length === 1;
 
-  const hasOnlyOneAdmin =
-    memberships.filter((per) => per.permission === PermissionLevel.Admin)
-      .length === 1;
+    let memberships = rawMemberships;
+    // can only edit your own membership
+    if (!canWrite) {
+      memberships = rawMemberships?.filter(
+        (im) => im.account.id === currentMember?.id,
+      );
+    }
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+    // keep only the highest membership per member
+    memberships = selectHighestMemberships(memberships).sort((im1, im2) => {
+      if (im1.account.type !== AccountType.Individual) {
+        return 1;
+      }
+      if (im2.account.type !== AccountType.Individual) {
+        return -1;
+      }
+      return im1.account.name > im2.account.name ? 1 : -1;
+    });
 
-  // this case should not happen!
-  if (!memberships.length) {
-    return <ErrorAlert />;
-  }
-
-  const membershipsRows = memberships
-    .filter((im) => im.account.type === AccountType.Individual)
-    .map((im) => ({
-      value: (im.account as { email: string }).email,
-      component: (
-        <ItemMembershipTableRow
-          data={im}
-          item={item}
-          disabled={
-            // cannot delete if not for current item
-            im.item.path !== item.path ||
-            // cannot delete if is the only admin
-            (hasOnlyOneAdmin && im.permission === PermissionLevel.Admin)
-          }
-          allowDowngrade={
-            // can downgrade for same item
-            im.item.path === item.path &&
-            // cannot downgrade your own membership
-            im.account.id !== currentMember?.id
-          }
-          onDelete={onDelete}
-        />
-      ),
-    }));
-
-  const requestsRows =
-    requests?.map((r) => ({
-      value: r.member.email,
-      component: <MembershipRequestTableRow itemId={item.id} data={r} />,
-    })) ?? [];
-
-  let rows = [...membershipsRows, ...requestsRows].sort((d1, d2) =>
-    d1.value > d2.value ? 1 : -1,
-  );
-
-  // add item login memberships at the end, sorted by name
-  const itemLoginMembershipsRows = memberships
-    .filter((im) => im.account.type === AccountType.Guest)
-    .map((im) => ({
-      value: im.account.name,
-      component: (
-        <ItemMembershipTableRow
-          data={im}
-          item={item}
-          disabled={
-            // cannot delete if not for current item
-            im.item.path !== item.path
-          }
-          onDelete={onDelete}
-        />
-      ),
-    }))
-    .sort((d1, d2) => (d1.value < d2.value ? 1 : -1));
-
-  rows = rows.concat(itemLoginMembershipsRows);
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (rows) {
-    return (
-      <TableContainer>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              {showEmail && (
-                <TableCell sx={{ fontWeight: 'bold' }}>
-                  {translateBuilder(
-                    BUILDER.ITEM_MEMBERSHIPS_TABLE_EMAIL_HEADER,
-                  )}
-                </TableCell>
-              )}
-              <TableCell sx={{ fontWeight: 'bold' }} align="right">
-                {translateBuilder(
-                  BUILDER.ITEM_MEMBERSHIPS_TABLE_PERMISSION_HEADER,
-                )}
-              </TableCell>
-              <TableCell sx={{ fontWeight: 'bold' }} align="right">
-                {translateBuilder(
-                  BUILDER.ITEM_MEMBERSHIPS_TABLE_ACTIONS_HEADER,
-                )}
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{rows.map(({ component }) => component)}</TableBody>
-        </Table>
-        {open && (
-          <DeleteItemMembershipDialog
-            open={open}
-            handleClose={handleClose}
-            itemId={item.id}
-            membershipToDelete={membershipToDelete}
-            hasOnlyOneAdmin={
-              memberships.filter(
-                (per) => per.permission === PermissionLevel.Admin,
-              ).length === 1
+    // map memberships to corresponding row layout and meaningful data to sort
+    const membershipsRows = memberships.map((im) => ({
+      name: im.account.name,
+      email:
+        im.account.type === AccountType.Individual ? im.account.email : '-',
+      permission: im.permission,
+      component:
+        im.account.type === AccountType.Individual ? (
+          <ItemMembershipTableRow
+            data={im}
+            item={item}
+            disabled={
+              // cannot delete if not for current item
+              im.item.path !== item.path ||
+              // cannot delete if is the only admin
+              (hasOnlyOneAdmin && im.permission === PermissionLevel.Admin)
+            }
+            allowDowngrade={
+              // can downgrade for same item
+              im.item.path === item.path &&
+              // cannot downgrade your own membership
+              im.account.id !== currentMember?.id
             }
           />
-        )}
-      </TableContainer>
+        ) : (
+          <GuestItemMembershipTableRow itemId={item.id} data={im} />
+        ),
+    }));
+
+    // map invitations to row layout and meaningful data to sort
+    const invitationsRows =
+      invitations?.map((r) => ({
+        name: r.name ?? EMPTY_NAME_VALUE,
+        email: r.email,
+        permission: r.permission,
+        component: <InvitationTableRow item={item} data={r} />,
+      })) ?? [];
+
+    // sort by name, email
+    // empty names should be at the end
+    // sorting by permission is done in the splitting below
+    const sortFn = (
+      d1: { name: string; email: string },
+      d2: { name: string; email: string },
+    ) => {
+      if (d1.name === d2.name) {
+        return d1.email > d2.email ? 1 : -1;
+      }
+      if (d1.name === EMPTY_NAME_VALUE) {
+        return 1;
+      }
+      if (d2.name === EMPTY_NAME_VALUE) {
+        return -1;
+      }
+      return d1.name > d2.name ? 1 : -1;
+    };
+
+    // split per permission to add divider between sections
+    const rows = groupby(
+      [...membershipsRows, ...invitationsRows],
+      ({ permission }) => permission,
     );
+
+    if (rows) {
+      return (
+        <TableContainer>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                {showEmail && (
+                  <TableCell sx={{ fontWeight: 'bold' }}>
+                    {translateBuilder(
+                      BUILDER.ITEM_MEMBERSHIPS_TABLE_MEMBER_HEADER,
+                    )}
+                  </TableCell>
+                )}
+                <TableCell sx={{ fontWeight: 'bold' }} align="right">
+                  {translateBuilder(
+                    BUILDER.ITEM_MEMBERSHIPS_TABLE_PERMISSION_HEADER,
+                  )}
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} align="right">
+                  {translateBuilder(
+                    BUILDER.ITEM_MEMBERSHIPS_TABLE_STATUS_HEADER,
+                  )}
+                </TableCell>
+                <TableCell sx={{ fontWeight: 'bold' }} align="right">
+                  {translateBuilder(
+                    BUILDER.ITEM_MEMBERSHIPS_TABLE_ACTIONS_HEADER,
+                  )}
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {rows[PermissionLevel.Admin]
+                .toSorted(sortFn)
+                .map(({ component }) => component)}
+              {Boolean(
+                rows[PermissionLevel.Admin].length +
+                  rows[PermissionLevel.Write].length,
+              ) && <TableCell colSpan={5} sx={{ padding: 0 }} />}
+              {rows[PermissionLevel.Write]
+                .toSorted(sortFn)
+                .map(({ component }) => component)}
+              {Boolean(
+                rows[PermissionLevel.Read].length +
+                  rows[PermissionLevel.Write].length,
+              ) && <TableCell colSpan={5} sx={{ padding: 0 }} />}
+              {rows[PermissionLevel.Read]
+                .toSorted(sortFn)
+                .map(({ component }) => component)}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      );
+    }
+  }
+
+  if (isMembershipsLoading || isLoading) {
+    return <Skeleton />;
   }
 
   return <ErrorAlert />;

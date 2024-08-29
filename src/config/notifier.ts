@@ -79,6 +79,8 @@ const {
   createShortLinkRoutine,
   deleteShortLinkRoutine,
   patchShortLinkRoutine,
+  patchInvitationRoutine,
+  deleteInvitationRoutine,
   deleteItemThumbnailRoutine,
 } = routines;
 
@@ -184,6 +186,8 @@ const notifier: Notifier = (
     case createShortLinkRoutine.FAILURE:
     case deleteShortLinkRoutine.FAILURE:
     case patchShortLinkRoutine.FAILURE:
+    case deleteInvitationRoutine.FAILURE:
+    case patchInvitationRoutine.FAILURE:
     case deleteItemThumbnailRoutine.FAILURE: {
       message = getErrorMessageFromPayload(payload);
       break;
@@ -215,6 +219,8 @@ const notifier: Notifier = (
     case createShortLinkRoutine.SUCCESS:
     case deleteShortLinkRoutine.SUCCESS:
     case patchShortLinkRoutine.SUCCESS:
+    case deleteInvitationRoutine.SUCCESS:
+    case patchInvitationRoutine.SUCCESS:
     case deleteItemThumbnailRoutine.SUCCESS: {
       message = getSuccessMessageFromPayload(payload);
       break;

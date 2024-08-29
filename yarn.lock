@@ -1892,7 +1892,7 @@ __metadata:
 
 "@graasp/query-client@github:graasp/graasp-query-client#membership-request":
   version: 3.22.3
-  resolution: "@graasp/query-client@https://github.com/graasp/graasp-query-client.git#commit=e9259932353525828c90c0d2291172e559306aaa"
+  resolution: "@graasp/query-client@https://github.com/graasp/graasp-query-client.git#commit=9c73e4eb768acaf3fee5c623a6b3a37a8ea31c64"
   dependencies:
     "@tanstack/react-query": "npm:4.36.1"
     "@tanstack/react-query-devtools": "npm:4.36.1"
@@ -1902,7 +1902,7 @@ __metadata:
     "@graasp/sdk": ^4.0.0
     "@graasp/translations": "*"
     react: ^18.0.0
-  checksum: 10/0db6b933a86d225e59ee8c252d4181ca16196626443f430e553f0b6f811557d1e4c6d42de56ed3d036212b8cfae704d86be1d45042b337ccadb78dc1bb22b4bd
+  checksum: 10/152e33869ff74ffb9dd0c0d84ef9942807287c8653fa8bfb1432101047c12237099070f6fe8ceca5bcc30a050998b3aaafb2c79b3d6b6666ed934786af643d5f
   languageName: node
   linkType: hard
 
@@ -1938,10 +1938,10 @@ __metadata:
 
 "@graasp/translations@github:graasp/graasp-translations#membership-request":
   version: 1.35.1
-  resolution: "@graasp/translations@https://github.com/graasp/graasp-translations.git#commit=57d76422c3478307b0d136e4557002fb2491859b"
+  resolution: "@graasp/translations@https://github.com/graasp/graasp-translations.git#commit=2b36f78d304ec6bf21921947d3cd02912be3ef61"
   peerDependencies:
     i18next: ^23.8.1
-  checksum: 10/a37fa9a51f98d3a77cd42b27ea7e17d8aed233f32b835f17ec9d89a35afbc9da46cc88052e0df39dd2d39a57b311595ae80172e895d3b30782049d516d0a9130
+  checksum: 10/ea779a6c11d814096f563134fc19a6c53820f36bdf44da8d25d2988579085340fc47adfd32fe311ed05961164ca9995b60bac982790944d4bbdcf430bbfc6ca7
   languageName: node
   linkType: hard
 

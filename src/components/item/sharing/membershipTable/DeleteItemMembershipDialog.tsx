@@ -16,11 +16,11 @@ import {
 } from '@graasp/sdk';
 import { Button } from '@graasp/ui';
 
-import { useBuilderTranslation } from '../../../config/i18n';
-import { hooks, mutations } from '../../../config/queryClient';
-import { CONFIRM_MEMBERSHIP_DELETE_BUTTON_ID } from '../../../config/selectors';
-import { BUILDER } from '../../../langs/constants';
-import CancelButton from '../../common/CancelButton';
+import { useBuilderTranslation } from '../../../../config/i18n';
+import { hooks, mutations } from '../../../../config/queryClient';
+import { CONFIRM_MEMBERSHIP_DELETE_BUTTON_ID } from '../../../../config/selectors';
+import { BUILDER } from '../../../../langs/constants';
+import CancelButton from '../../../common/CancelButton';
 
 const labelId = 'alert-dialog-title';
 const descriptionId = 'alert-dialog-description';
@@ -33,7 +33,7 @@ type Props = {
     ItemMembership,
     'id' | 'account' | 'permission'
   > | null;
-  hasOnlyOneAdmin: boolean;
+  hasOnlyOneAdmin?: boolean;
 };
 
 const DeleteItemMembershipDialog = ({
