@@ -1,4 +1,4 @@
-import { Chip, TableCell, TableRow, Typography } from '@mui/material';
+import { TableCell, TableRow, Typography } from '@mui/material';
 
 import { DiscriminatedItem, ItemMembership } from '@graasp/sdk';
 
@@ -31,13 +31,6 @@ const GuestItemMembershipTableRow = ({
       </TableCell>
       <TableCell align="right">
         <Typography>{translateEnums(data.permission)}</Typography>
-      </TableCell>
-      <TableCell align="right">
-        <Chip
-          variant="outlined"
-          label={translateEnums(data.account.type)}
-          size="small"
-        />
       </TableCell>
       <TableCell align="right">
         <DeleteItemMembershipButton itemId={itemId} data={data} />

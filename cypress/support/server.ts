@@ -2283,3 +2283,40 @@ export const mockGetLinkMetadata = (): void => {
     },
   ).as('getLinkMetadata');
 };
+
+export const mockGetOwnMembershipRequests = (
+  currentMember: Member,
+  membershipRequests,
+): void => {
+  cy.intercept(
+    {
+      method: HttpMethod.Get,
+      url: new RegExp(
+        `${API_HOST}/items/${ID_FORMAT}/memberships/requests/own`,
+      ),
+    },
+    ({ reply, url }) => {
+      const urlParams = url.split('/');
+      const itemId = urlParams[urlParams.length - 4];
+      return reply(
+        membershipRequests.find(
+          ({ item, member }) =>
+            item.id === itemId && member.id === currentMember.id,
+        ),
+      );
+    },
+  ).as('getOwnMembershipRequests');
+};
+
+export const mockRequestMembership = (): void => {
+  cy.intercept(
+    {
+      method: HttpMethod.Post,
+      url: new RegExp(`${API_HOST}/items/${ID_FORMAT}/memberships/requests`),
+    },
+    ({ reply, url }) => {
+      const urlParams = url.split('/');
+      return reply({ statusCode: StatusCodes.OK });
+    },
+  ).as('requestMembership');
+};

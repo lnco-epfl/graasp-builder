@@ -1,4 +1,4 @@
-import { Chip, TableCell, TableRow, Typography } from '@mui/material';
+import { TableCell, TableRow, Typography } from '@mui/material';
 
 import {
   AccountType,
@@ -7,14 +7,12 @@ import {
   PermissionLevel,
 } from '@graasp/sdk';
 
-import { UserRound } from 'lucide-react';
-
 import { useEnumsTranslation } from '@/config/i18n';
 import { mutations } from '@/config/queryClient';
 
 import { buildItemMembershipRowId } from '../../../../config/selectors';
 import DeleteItemMembershipButton from './DeleteItemMembershipButton';
-import EditPermissionModal from './EditPermissionModal';
+import EditPermissionButton from './EditPermissionButton';
 
 const ItemMembershipTableRow = ({
   allowDowngrade = false,
@@ -68,17 +66,9 @@ const ItemMembershipTableRow = ({
         <Typography>{translateEnums(data.permission)}</Typography>
       </TableCell>
       <TableCell align="right">
-        <Chip
-          variant="outlined"
-          icon={<UserRound size={12} />}
-          label={translateEnums(data.account.type)}
-          size="small"
-        />
-      </TableCell>
-      <TableCell align="right">
         {!disabled && (
           <>
-            <EditPermissionModal
+            <EditPermissionButton
               name={data.account.name}
               handleUpdate={changePermission}
               allowDowngrade={allowDowngrade}

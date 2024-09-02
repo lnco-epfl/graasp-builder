@@ -30,7 +30,7 @@ type Props = {
   handleUpdate: (p: PermissionLevel) => void;
 };
 
-const EditPermissionModal = ({
+const EditPermissionButton = ({
   email,
   name,
   permission,
@@ -84,11 +84,11 @@ const EditPermissionModal = ({
             {translateCommon(COMMON.CANCEL_BUTTON)}
           </Button>
           <Button
+            type="submit"
             onClick={() => {
               handleUpdate(currentPermission);
               closeModal();
             }}
-            id={SHARE_ITEM_SHARE_BUTTON_ID}
           >
             {translateBuilder('Update')}
           </Button>
@@ -98,4 +98,4 @@ const EditPermissionModal = ({
   );
 };
 
-export default EditPermissionModal;
+export default EditPermissionButton;

@@ -129,6 +129,10 @@ const ItemMembershipsTable = ({ showEmail = true }: Props): JSX.Element => {
       ({ permission }) => permission,
     );
 
+    const adminRows = rows[PermissionLevel.Admin]?.toSorted(sortFn) ?? [];
+    const writeRows = rows[PermissionLevel.Write]?.toSorted(sortFn) ?? [];
+    const readRows = rows[PermissionLevel.Read]?.toSorted(sortFn) ?? [];
+
     if (rows) {
       return (
         <TableContainer>
@@ -149,34 +153,21 @@ const ItemMembershipsTable = ({ showEmail = true }: Props): JSX.Element => {
                 </TableCell>
                 <TableCell sx={{ fontWeight: 'bold' }} align="right">
                   {translateBuilder(
-                    BUILDER.ITEM_MEMBERSHIPS_TABLE_STATUS_HEADER,
-                  )}
-                </TableCell>
-                <TableCell sx={{ fontWeight: 'bold' }} align="right">
-                  {translateBuilder(
                     BUILDER.ITEM_MEMBERSHIPS_TABLE_ACTIONS_HEADER,
                   )}
                 </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows[PermissionLevel.Admin]
-                .toSorted(sortFn)
-                .map(({ component }) => component)}
-              {Boolean(
-                rows[PermissionLevel.Admin].length +
-                  rows[PermissionLevel.Write].length,
-              ) && <TableCell colSpan={5} sx={{ padding: 0 }} />}
-              {rows[PermissionLevel.Write]
-                .toSorted(sortFn)
-                .map(({ component }) => component)}
-              {Boolean(
-                rows[PermissionLevel.Read].length +
-                  rows[PermissionLevel.Write].length,
-              ) && <TableCell colSpan={5} sx={{ padding: 0 }} />}
-              {rows[PermissionLevel.Read]
-                .toSorted(sortFn)
-                .map(({ component }) => component)}
+              {adminRows.map(({ component }) => component)}
+              {Boolean(adminRows.length + writeRows.length) && (
+                <TableCell colSpan={5} sx={{ padding: 0 }} />
+              )}
+              {writeRows.map(({ component }) => component)}
+              {Boolean(readRows.length + writeRows.length) && (
+                <TableCell colSpan={5} sx={{ padding: 0 }} />
+              )}
+              {readRows.map(({ component }) => component)}
             </TableBody>
           </Table>
         </TableContainer>

@@ -11,6 +11,7 @@ import { Check, Lock } from 'lucide-react';
 
 import { useBuilderTranslation } from '@/config/i18n';
 import { hooks, mutations } from '@/config/queryClient';
+import { REQUEST_MEMBERSHIP_BUTTON_ID } from '@/config/selectors';
 import { BUILDER } from '@/langs/constants';
 
 type Props = {
@@ -62,6 +63,7 @@ const RequestAccessContent = ({ member, itemId }: Props): JSX.Element => {
         {translateBuilder('Request access to this item')}
       </Typography>
       <LoadingButton
+        id={REQUEST_MEMBERSHIP_BUTTON_ID}
         variant="contained"
         disabled={isSuccess}
         loading={isLoading}

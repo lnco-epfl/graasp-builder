@@ -13,6 +13,7 @@ import Popper from '@mui/material/Popper';
 import { DiscriminatedItem } from '@graasp/sdk';
 
 import useModalStatus from '@/components/hooks/useModalStatus';
+import { SHARE_BUTTON_SELECTOR } from '@/config/selectors';
 
 import ImportUsersWithCSVButton from '../csvImport/ImportUsersWithCSVButton';
 import CreateItemMembershipForm from './CreateItemMembershipForm';
@@ -40,10 +41,7 @@ const ShareButton = ({ item }: Props): JSX.Element => {
   };
 
   const handleClose = (event: Event) => {
-    if (
-      anchorRef.current &&
-      anchorRef.current.contains(event.target as HTMLElement)
-    ) {
+    if (anchorRef.current?.contains(event.target as HTMLElement)) {
       return;
     }
 
@@ -58,7 +56,9 @@ const ShareButton = ({ item }: Props): JSX.Element => {
         ref={anchorRef}
         aria-label="sharing options"
       >
-        <Button onClick={openShareItemModal}>Share</Button>
+        <Button onClick={openShareItemModal} data-cy={SHARE_BUTTON_SELECTOR}>
+          Share
+        </Button>
         <Button
           size="small"
           aria-controls={openMenu ? 'split-button-menu' : undefined}

@@ -51,6 +51,7 @@ export const SHARE_ITEM_EMAIL_INPUT_ID = 'shareItemModalEmailInput';
 export const buildPermissionOptionId = (id: string): string =>
   `permission-${id}`;
 export const SHARE_ITEM_SHARE_BUTTON_ID = 'shareItemModalShareButton';
+export const SHARE_BUTTON_SELECTOR = 'shareItem';
 
 export const PUBLISHED_ITEMS_ID = 'publishedItems';
 export const BOOKMARKED_ITEMS_ID = 'bookmarkedItems';
@@ -434,3 +435,4 @@ export const RECYCLE_BIN_RESTORE_MANY_ITEMS_BUTTON_ID =
 export const COPY_MANY_ITEMS_BUTTON_SELECTOR = `.lucide-copy`;
 export const MOVE_MANY_ITEMS_BUTTON_SELECTOR = `.lucide-move`;
 export const DELETE_SINGLE_ITEM_BUTTON_SELECTOR = `.lucide-trash`;
+export const REQUEST_MEMBERSHIP_BUTTON_ID = 'requestMembershipButton';
