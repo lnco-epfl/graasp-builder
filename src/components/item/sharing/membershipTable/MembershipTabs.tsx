@@ -4,6 +4,10 @@ import { useOutletContext } from 'react-router-dom';
 import { Badge, Box, Stack, Tab, Tabs, Typography } from '@mui/material';
 
 import { OutletType } from '@/components/pages/item/type';
+import {
+  MEMBERSHIPS_TAB_SELECTOR,
+  MEMBERSHIP_REQUESTS_TAB_SELECTOR,
+} from '@/config/selectors';
 
 import { useBuilderTranslation } from '../../../../config/i18n';
 import { hooks } from '../../../../config/queryClient';
@@ -18,14 +22,14 @@ type TabPanelProps = {
   selectedTabId: number;
 };
 const CustomTabPanel = ({ children, value, selectedTabId }: TabPanelProps) => (
-  <div
+  <Box
     role="tabpanel"
     hidden={value !== selectedTabId}
-    id={`simple-tabpanel-${value}`}
     aria-labelledby={`simple-tab-${value}`}
+    mt={1}
   >
-    <Box mt={1}>{children}</Box>
-  </div>
+    {children}
+  </Box>
 );
 
 const MembershipTabs = (): JSX.Element | null => {
@@ -50,10 +54,12 @@ const MembershipTabs = (): JSX.Element | null => {
             setSelectedTabId(newValue);
           }}
           aria-label="memberships tabs"
+          data-cy={MEMBERSHIPS_TAB_SELECTOR}
         >
           <Tab label={translateBuilder(BUILDER.USER_MANAGEMENT_MEMBERS_TAB)} />
           {canAdmin && (
             <Tab
+              data-cy={MEMBERSHIP_REQUESTS_TAB_SELECTOR}
               label={
                 requests?.length ? (
                   <Badge badgeContent={requests?.length} color="primary">

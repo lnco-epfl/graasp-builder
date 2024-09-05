@@ -2314,9 +2314,34 @@ export const mockRequestMembership = (): void => {
       method: HttpMethod.Post,
       url: new RegExp(`${API_HOST}/items/${ID_FORMAT}/memberships/requests`),
     },
+    ({ reply }) => reply({ statusCode: StatusCodes.OK }),
+  ).as('requestMembership');
+};
+
+export const mockGetMembershipRequestsForItem = (membershipRequests): void => {
+  cy.intercept(
+    {
+      method: HttpMethod.Get,
+      url: new RegExp(`${API_HOST}/items/${ID_FORMAT}/memberships/requests`),
+    },
     ({ reply, url }) => {
       const urlParams = url.split('/');
-      return reply({ statusCode: StatusCodes.OK });
+      const itemId = urlParams[urlParams.length - 3];
+      return reply(membershipRequests.filter(({ item }) => item.id === itemId));
     },
-  ).as('requestMembership');
+  ).as('getMembershipRequestsForItem');
+};
+
+export const mockRejectMembershipRequest = (): void => {
+  cy.intercept(
+    {
+      method: HttpMethod.Delete,
+      url: new RegExp(
+        `${API_HOST}/items/${ID_FORMAT}/memberships/requests/${ID_FORMAT}`,
+      ),
+    },
+    ({ reply }) => {
+      reply({ statusCode: StatusCodes.OK });
+    },
+  ).as('rejectMembershipRequest');
 };

@@ -19,7 +19,6 @@ import {
   useBuilderTranslation,
   useCommonTranslation,
 } from '../../../../config/i18n';
-import { SHARE_ITEM_SHARE_BUTTON_ID } from '../../../../config/selectors';
 import ItemMembershipSelect from '../ItemMembershipSelect';
 
 type Props = {
@@ -28,6 +27,7 @@ type Props = {
   allowDowngrade?: boolean;
   permission: PermissionLevel;
   handleUpdate: (p: PermissionLevel) => void;
+  id?: string;
 };
 
 const EditPermissionButton = ({
@@ -36,7 +36,8 @@ const EditPermissionButton = ({
   permission,
   allowDowngrade = true,
   handleUpdate,
-}: Props): JSX.Element => {
+  id,
+}: Props): JSX.Element | null => {
   const { isOpen, openModal, closeModal } = useModalStatus();
 
   const [currentPermission, setCurrentPermission] = useState(permission);
@@ -44,9 +45,14 @@ const EditPermissionButton = ({
   const { t: translateCommon } = useCommonTranslation();
   const { t: translateBuilder } = useBuilderTranslation();
 
+  if (!allowDowngrade && permission === PermissionLevel.Admin) {
+    return null;
+  }
+
   return (
     <>
       <EditButton
+        id={id}
         onClick={() => {
           openModal();
         }}
@@ -67,7 +73,7 @@ const EditPermissionButton = ({
               alignItems="center"
               justifyContent="space-between"
             >
-              {name || email}
+              {name ?? email}
               <ItemMembershipSelect
                 value={currentPermission}
                 onChange={(e) => {

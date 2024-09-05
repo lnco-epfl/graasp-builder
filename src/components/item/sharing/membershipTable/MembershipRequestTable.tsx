@@ -27,7 +27,13 @@ import { useBuilderTranslation } from '@/config/i18n';
 import { hooks, mutations } from '@/config/queryClient';
 import { BUILDER } from '@/langs/constants';
 
-import { buildItemMembershipRowId } from '../../../../config/selectors';
+import {
+  MEMBERSHIP_REQUESTS_EMPTY_SELECTOR,
+  MEMBERSHIP_REQUEST_ACCEPT_BUTTON_SELECTOR,
+  MEMBERSHIP_REQUEST_REJECT_BUTTON_SELECTOR,
+  buildItemMembershipRowId,
+  buildMembershipRequestRowSelector,
+} from '../../../../config/selectors';
 
 const MembershipRequestTable = (): JSX.Element => {
   const { t: translateBuilder } = useBuilderTranslation();
@@ -71,7 +77,7 @@ const MembershipRequestTable = (): JSX.Element => {
           <TableBody>
             {requests?.map((r) => (
               <TableRow
-                data-cy={buildItemMembershipRowId(r.member.id)}
+                data-cy={buildMembershipRequestRowSelector(r.member.id)}
                 key={r.member.id}
                 sx={{
                   '&:last-child td, &:last-child th': { border: 0 },
@@ -92,6 +98,7 @@ const MembershipRequestTable = (): JSX.Element => {
                 </TableCell>
                 <TableCell align="right">
                   <Button
+                    data-cy={MEMBERSHIP_REQUEST_ACCEPT_BUTTON_SELECTOR}
                     size="small"
                     color="success"
                     onClick={() => {
@@ -102,6 +109,7 @@ const MembershipRequestTable = (): JSX.Element => {
                     Accept
                   </Button>
                   <Button
+                    data-cy={MEMBERSHIP_REQUEST_REJECT_BUTTON_SELECTOR}
                     size="small"
                     color="error"
                     variant="text"
@@ -121,7 +129,11 @@ const MembershipRequestTable = (): JSX.Element => {
   }
 
   if (requests?.length === 0) {
-    return <Typography>No pending request.</Typography>;
+    return (
+      <Typography data-cy={MEMBERSHIP_REQUESTS_EMPTY_SELECTOR}>
+        {translateBuilder('No pending request.')}
+      </Typography>
+    );
   }
 
   if (isLoading) {

@@ -11,7 +11,10 @@ import { Check, Lock } from 'lucide-react';
 
 import { useBuilderTranslation } from '@/config/i18n';
 import { hooks, mutations } from '@/config/queryClient';
-import { REQUEST_MEMBERSHIP_BUTTON_ID } from '@/config/selectors';
+import {
+  MEMBERSHIP_REQUEST_PENDING_SCREEN_SELECTOR,
+  REQUEST_MEMBERSHIP_BUTTON_ID,
+} from '@/config/selectors';
 import { BUILDER } from '@/langs/constants';
 
 type Props = {
@@ -36,6 +39,7 @@ const RequestAccessContent = ({ member, itemId }: Props): JSX.Element => {
         alignItems="center"
         height="100%"
         gap={2}
+        data-cy={MEMBERSHIP_REQUEST_PENDING_SCREEN_SELECTOR}
       >
         <Lock size={40} />
         <Typography variant="h3">

@@ -35,7 +35,7 @@ const ItemMembershipsTable = ({ showEmail = true }: Props): JSX.Element => {
   const { t: translateBuilder } = useBuilderTranslation();
 
   const { data: currentMember } = hooks.useCurrentMember();
-  const { item, canWrite, canAdmin } = useOutletContext<OutletType>();
+  const { item, canAdmin } = useOutletContext<OutletType>();
   const { data: rawMemberships, isLoading: isMembershipsLoading } =
     hooks.useItemMemberships(item?.id);
   const { data: invitations, isLoading } = hooks.useItemInvitations(item.id, {
@@ -49,7 +49,7 @@ const ItemMembershipsTable = ({ showEmail = true }: Props): JSX.Element => {
 
     let memberships = rawMemberships;
     // can only edit your own membership
-    if (!canWrite) {
+    if (!canAdmin) {
       memberships = rawMemberships?.filter(
         (im) => im.account.id === currentMember?.id,
       );
@@ -77,17 +77,12 @@ const ItemMembershipsTable = ({ showEmail = true }: Props): JSX.Element => {
           <ItemMembershipTableRow
             data={im}
             item={item}
-            disabled={
-              // cannot delete if not for current item
-              im.item.path !== item.path ||
-              // cannot delete if is the only admin
-              (hasOnlyOneAdmin && im.permission === PermissionLevel.Admin)
+            isOnlyAdmin={
+              hasOnlyOneAdmin && im.permission === PermissionLevel.Admin
             }
             allowDowngrade={
               // can downgrade for same item
-              im.item.path === item.path &&
-              // cannot downgrade your own membership
-              im.account.id !== currentMember?.id
+              im.item.path === item.path
             }
           />
         ) : (

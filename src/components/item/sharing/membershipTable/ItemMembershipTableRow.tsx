@@ -10,20 +10,24 @@ import {
 import { useEnumsTranslation } from '@/config/i18n';
 import { mutations } from '@/config/queryClient';
 
-import { buildItemMembershipRowId } from '../../../../config/selectors';
+import {
+  buildItemMembershipRowDeleteButtonId,
+  buildItemMembershipRowEditButtonId,
+  buildItemMembershipRowId,
+} from '../../../../config/selectors';
 import DeleteItemMembershipButton from './DeleteItemMembershipButton';
 import EditPermissionButton from './EditPermissionButton';
 
 const ItemMembershipTableRow = ({
   allowDowngrade = false,
-  disabled,
+  isOnlyAdmin = false,
   item,
   data,
 }: {
   data: ItemMembership;
   item: DiscriminatedItem;
   allowDowngrade?: boolean;
-  disabled: boolean;
+  isOnlyAdmin?: boolean;
 }): JSX.Element => {
   const { t: translateEnums } = useEnumsTranslation();
 
@@ -66,16 +70,17 @@ const ItemMembershipTableRow = ({
         <Typography>{translateEnums(data.permission)}</Typography>
       </TableCell>
       <TableCell align="right">
-        {!disabled && (
-          <>
-            <EditPermissionButton
-              name={data.account.name}
-              handleUpdate={changePermission}
-              allowDowngrade={allowDowngrade}
-              permission={data.permission}
-            />
-            <DeleteItemMembershipButton itemId={item.id} data={data} />
-          </>
+        {!isOnlyAdmin && (
+          <EditPermissionButton
+            name={data.account.name}
+            handleUpdate={changePermission}
+            allowDowngrade={allowDowngrade}
+            permission={data.permission}
+            id={buildItemMembershipRowEditButtonId(data.id)}
+          />
+        )}
+        {!isOnlyAdmin && allowDowngrade && (
+          <DeleteItemMembershipButton itemId={item.id} data={data} />
         )}
       </TableCell>
     </TableRow>

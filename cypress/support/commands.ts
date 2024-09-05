@@ -60,6 +60,7 @@ import {
   mockGetMemberMentions,
   mockGetMembers,
   mockGetMembersBy,
+  mockGetMembershipRequestsForItem,
   mockGetOwnItems,
   mockGetOwnMembershipRequests,
   mockGetParents,
@@ -92,6 +93,7 @@ import {
   mockPublishItem,
   mockPutItemLoginSchema,
   mockRecycleItems,
+  mockRejectMembershipRequest,
   mockRequestMembership,
   mockRestoreItems,
   mockSignInRedirection,
@@ -361,6 +363,10 @@ Cypress.Commands.add(
     mockGetOwnMembershipRequests(currentMember, membershipRequests);
 
     mockRequestMembership();
+
+    mockGetMembershipRequestsForItem(membershipRequests);
+
+    mockRejectMembershipRequest();
   },
 );
 
