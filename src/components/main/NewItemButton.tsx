@@ -39,10 +39,10 @@ const NewItemButton = ({
       {type === 'icon' ? (
         <IconButton
           onClick={handleClickOpen}
-          color="secondary"
           sx={{
             background: theme.palette.primary.main,
             '&:hover': { background: 'grey' },
+            color: '#FFF',
           }}
         >
           <AddIcon />

@@ -1,6 +1,6 @@
 import { Link, useParams } from 'react-router-dom';
 
-import { Stack, styled, useTheme } from '@mui/material';
+import { Stack, styled } from '@mui/material';
 
 import { Context } from '@graasp/sdk';
 import {
@@ -8,7 +8,6 @@ import {
   Platform,
   PlatformSwitch,
   defaultHostsMapper,
-  useMobileView,
   usePlatformNavigation,
 } from '@graasp/ui';
 
@@ -26,7 +25,6 @@ import MemberValidationBanner from '../alerts/MemberValidationBanner';
 import CookiesBanner from '../common/CookiesBanner';
 import UserSwitchWrapper from '../common/UserSwitchWrapper';
 import MainMenu from './MainMenu';
-import NotificationButton from './NotificationButton';
 
 const StyledLink = styled(Link)(() => ({
   textDecoration: 'none',
@@ -41,7 +39,6 @@ const LinkComponent = ({ children }: { children: JSX.Element }) => (
 // small converter for HOST_MAP into a usePlatformNavigation mapper
 export const platformsHostsMap = defaultHostsMapper({
   [Platform.Player]: HOST_MAP.player,
-  [Platform.Library]: HOST_MAP.library,
   [Platform.Analytics]: HOST_MAP.analytics,
 });
 
@@ -49,8 +46,6 @@ type Props = { children: JSX.Element | (JSX.Element & string) };
 
 const Main = ({ children }: Props): JSX.Element => {
   const { t } = useBuilderTranslation();
-  const theme = useTheme();
-  const { isMobile } = useMobileView();
 
   const itemId = useParams()[ITEM_ID_PARAMS];
 
@@ -64,10 +59,6 @@ const Main = ({ children }: Props): JSX.Element => {
       id: APP_NAVIGATION_PLATFORM_SWITCH_BUTTON_IDS[Platform.Player],
       ...getNavigationEvents(Platform.Player),
     },
-    [Platform.Library]: {
-      id: APP_NAVIGATION_PLATFORM_SWITCH_BUTTON_IDS[Platform.Library],
-      ...getNavigationEvents(Platform.Library),
-    },
     [Platform.Analytics]: {
       id: APP_NAVIGATION_PLATFORM_SWITCH_BUTTON_IDS[Platform.Analytics],
       ...getNavigationEvents(Platform.Analytics),
@@ -76,7 +67,6 @@ const Main = ({ children }: Props): JSX.Element => {
 
   const rightContent = (
     <Stack direction="row" alignItems="center">
-      <NotificationButton />
       <UserSwitchWrapper />
     </Stack>
   );
@@ -93,12 +83,8 @@ const Main = ({ children }: Props): JSX.Element => {
           id={APP_NAVIGATION_PLATFORM_SWITCH_ID}
           selected={Platform.Builder}
           platformsProps={platformProps}
-          color={
-            isMobile ? theme.palette.primary.main : theme.palette.secondary.main
-          }
-          accentColor={
-            isMobile ? theme.palette.secondary.main : theme.palette.primary.main
-          }
+          color="#FFF"
+          accentColor="#000"
         />
       }
     >
