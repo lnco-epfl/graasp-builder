@@ -1,22 +1,18 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // import { BugReport } from '@mui/icons-material';
-import { AutoStories, Bookmark, Delete, Folder } from '@mui/icons-material';
-import {
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-  styled,
-  useTheme,
-} from '@mui/material';
+import { Bookmark, Delete, Folder } from '@mui/icons-material';
+import { Stack, styled, useTheme } from '@mui/material';
 
-import { MainMenu as GraaspMainMenu, LibraryIcon, MenuItem } from '@graasp/ui';
+import {
+  EpflLogo,
+  MainMenu as GraaspMainMenu,
+  LibraryIcon,
+  MenuItem,
+} from '@graasp/ui';
 
 import { hooks } from '@/config/queryClient';
 
-import { TUTORIALS_LINK } from '../../config/constants';
 import { useBuilderTranslation } from '../../config/i18n';
 import {
   BOOKMARKED_ITEMS_PATH,
@@ -69,16 +65,18 @@ const MainMenu = (): JSX.Element => {
   //   </ListItem>
   // );
 
-  const resourceLinks = (
-    <ListItem disablePadding>
-      <ListItemButton href={TUTORIALS_LINK} target="_blank">
-        <ListItemIcon>
-          <AutoStories />
-        </ListItemIcon>
-        <ListItemText>{translateBuilder(BUILDER.TUTORIALS)}</ListItemText>
-      </ListItemButton>
-    </ListItem>
-  );
+  // const resourceLinks = (
+  //   <ListItem disablePadding>
+  //     <ListItemButton href={TUTORIALS_LINK} target="_blank">
+  //       <ListItemIcon>
+  //         <AutoStories />
+  //       </ListItemIcon>
+  //       <ListItemText>{translateBuilder(BUILDER.TUTORIALS)}</ListItemText>
+  //     </ListItemButton>
+  //   </ListItem>
+  // );
+
+  const epflLogoBottom = <EpflLogo height={20} />;
 
   const renderAuthenticatedMemberMenuItems = () => {
     if (!member || !member.id) {
@@ -133,9 +131,9 @@ const MainMenu = (): JSX.Element => {
     <GraaspMainMenu fullHeight>
       <Stack direction="column" height="100%" justifyContent="space-between">
         {renderAuthenticatedMemberMenuItems()}
-        <div>
+        <div style={{ margin: '0 auto' }}>
           {/* {reportBugLink} */}
-          {resourceLinks}
+          {epflLogoBottom}
         </div>
       </Stack>
     </GraaspMainMenu>
