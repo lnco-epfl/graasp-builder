@@ -8,8 +8,7 @@ import {
 } from '../../src/config/paths';
 import { HEADER_APP_BAR_ID, ITEM_MAIN_CLASS } from '../../src/config/selectors';
 import {
-  REDIRECTION_TIME,
-  REQUEST_FAILURE_LOADING_TIME,
+  REDIRECTION_TIME, // REQUEST_FAILURE_LOADING_TIME,
 } from '../support/constants';
 import { SIGN_IN_PATH } from '../support/paths';
 
