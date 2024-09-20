@@ -14,7 +14,7 @@ import {
 import { SIGN_IN_PATH } from '../support/paths';
 
 describe('Authentication', () => {
-  describe('Signed Off > Redirect to sign in route', () => {
+  describe(`Signed Off > Redirect to sign in route ${SIGN_IN_PATH} and ${HOME_PATH}`, () => {
     beforeEach(() => {
       cy.setUpApi({ currentMember: null });
     });
