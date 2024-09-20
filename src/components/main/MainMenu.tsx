@@ -2,14 +2,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 // import { BugReport } from '@mui/icons-material';
 import { Bookmark, Delete, Folder } from '@mui/icons-material';
-import { Stack, styled, useTheme } from '@mui/material';
+import { Stack, styled } from '@mui/material';
 
-import {
-  EpflLogo,
-  MainMenu as GraaspMainMenu,
-  LibraryIcon,
-  MenuItem,
-} from '@graasp/ui';
+import { EpflLogo, MainMenu as GraaspMainMenu, MenuItem } from '@graasp/ui';
 
 import { hooks } from '@/config/queryClient';
 
@@ -17,7 +12,6 @@ import { useBuilderTranslation } from '../../config/i18n';
 import {
   BOOKMARKED_ITEMS_PATH,
   HOME_PATH,
-  PUBLISHED_ITEMS_PATH,
   RECYCLE_BIN_PATH,
 } from '../../config/paths';
 import { BUILDER } from '../../langs/constants';
@@ -33,9 +27,6 @@ const MainMenu = (): JSX.Element => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { data: member } = hooks.useCurrentMember();
-
-  const theme = useTheme();
-  const iconColor = theme.palette.action.active;
 
   const goTo = (path: string) => {
     navigate(path);
@@ -102,20 +93,6 @@ const MainMenu = (): JSX.Element => {
           selected={pathname === BOOKMARKED_ITEMS_PATH}
           text={translateBuilder(BUILDER.BOOKMARKED_ITEMS_TITLE)}
           icon={<Bookmark />}
-        />
-        <MenuItem
-          onClick={() => goTo(PUBLISHED_ITEMS_PATH)}
-          selected={pathname === PUBLISHED_ITEMS_PATH}
-          text={translateBuilder(BUILDER.NAVIGATION_PUBLISHED_ITEMS_TITLE)}
-          icon={
-            <LibraryIcon
-              primaryColor={iconColor}
-              secondaryColor="#fff"
-              size={24}
-              disableHover
-              selected
-            />
-          }
         />
         <MenuItem
           onClick={() => goTo(RECYCLE_BIN_PATH)}

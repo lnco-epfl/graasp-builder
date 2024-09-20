@@ -21,7 +21,7 @@
     "@graasp/chatbox": "3.2.1",
     "@graasp/map": "1.17.0",
     "@graasp/query-client": "3.22.3",
-    "@graasp/sdk": "4.26.0",
+    "@graasp/sdk": "https://github.com/lnco-epfl/graasp-sdk#1-update-color-scheme-for-lnco",
     "@graasp/stylis-plugin-rtl": "^2",
     "@graasp/translations": "1.35.1",
     "@graasp/ui": "https://github.com/lnco-epfl/graasp-ui#1-update-ui-for-lnco-graasp",

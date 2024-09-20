@@ -69,8 +69,6 @@ const EditModal = ({ item, onClose, open }: Props): JSX.Element => {
       case ItemType.FOLDER:
       case ItemType.LINK:
       case ItemType.APP:
-      case ItemType.ETHERPAD:
-      case ItemType.H5P:
       default:
         return BaseItemForm;
     }

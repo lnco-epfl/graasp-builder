@@ -8,8 +8,6 @@ import {
   CompleteMember,
   Context,
   DocumentItemType,
-  EtherpadItemType,
-  H5PItemType,
   ItemType,
   LinkItemType,
   LocalFileItemType,
@@ -17,21 +15,13 @@ import {
   PermissionLevel,
   S3FileItemType,
   buildPdfViewerLink,
-  getH5PExtra,
   getLinkThumbnailUrl,
 } from '@graasp/sdk';
 import { DEFAULT_LANG } from '@graasp/translations';
-import {
-  AppItem,
-  EtherpadItem,
-  FileItem,
-  H5PItem,
-  LinkItem,
-  Loader,
-} from '@graasp/ui';
+import { AppItem, FileItem, LinkItem, Loader } from '@graasp/ui';
 import { DocumentItem } from '@graasp/ui/text-editor';
 
-import { API_HOST, GRAASP_ASSETS_URL, H5P_INTEGRATION_URL } from '@/config/env';
+import { API_HOST, GRAASP_ASSETS_URL } from '@/config/env';
 
 import { ITEM_DEFAULT_HEIGHT } from '../../config/constants';
 import { axios, hooks } from '../../config/queryClient';
@@ -47,7 +37,7 @@ import FileAlignmentSetting from './settings/file/FileAlignmentSetting';
 import FileMaxWidthSetting from './settings/file/FileMaxWidthSetting';
 import { SettingVariant } from './settings/settingTypes';
 
-const { useFileContentUrl, useEtherpad } = hooks;
+const { useFileContentUrl } = hooks;
 
 const StyledContainer = styled(Container)(() => ({
   flexGrow: 1,
@@ -158,56 +148,6 @@ const AppContent = ({
 );
 
 /**
- * Helper component to render typed H5P items
- */
-const H5PContent = ({ item }: { item: H5PItemType }): JSX.Element => {
-  const extra = getH5PExtra(item?.extra);
-
-  if (!extra?.contentId) {
-    return <ErrorAlert id={ITEM_SCREEN_ERROR_ALERT_ID} />;
-  }
-
-  return (
-    <H5PItem
-      itemId={item.id}
-      itemName={item.name}
-      contentId={extra.contentId}
-      integrationUrl={H5P_INTEGRATION_URL}
-    />
-  );
-};
-
-/**
- * Helper component to render typed Etherpad items
- */
-const EtherpadContent = ({ item }: { item: EtherpadItemType }): JSX.Element => {
-  const {
-    data: etherpad,
-    isLoading,
-    isError,
-  } = useEtherpad(
-    item,
-    'write', // server will return read view if no write access allowed
-  );
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (!etherpad?.padUrl || isError) {
-    return <ErrorAlert id={ITEM_SCREEN_ERROR_ALERT_ID} />;
-  }
-
-  return (
-    <EtherpadItem
-      itemId={item.id}
-      padUrl={etherpad.padUrl}
-      options={{ showChat: false }}
-    />
-  );
-};
-
-/**
  * Main item renderer component
  */
 const ItemContent = (): JSX.Element => {
@@ -235,15 +175,6 @@ const ItemContent = (): JSX.Element => {
       return <AppContent item={item} member={member} permission={permission} />;
     case ItemType.FOLDER:
       return <FolderContent item={item} />;
-
-    case ItemType.H5P: {
-      return <H5PContent item={item} />;
-    }
-
-    case ItemType.ETHERPAD: {
-      return <EtherpadContent item={item} />;
-    }
-
     default:
       return <ErrorAlert id={ITEM_SCREEN_ERROR_ALERT_ID} />;
   }
