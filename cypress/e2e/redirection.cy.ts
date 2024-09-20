@@ -7,7 +7,7 @@ const DOMAIN = Cypress.env('VITE_GRAASP_DOMAIN');
 
 describe('Redirection', () => {
   it('Redirection to saved url', () => {
-    const link = 'https://graasp.org';
+    const link = 'https://bitboxing.com';
     saveUrlForRedirection(link, DOMAIN);
 
     cy.setUpApi();
