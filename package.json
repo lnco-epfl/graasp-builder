@@ -22,7 +22,7 @@
     "@graasp/map": "1.17.0",
     "@graasp/query-client": "3.22.3",
     "@graasp/sdk": "https://github.com/lnco-epfl/graasp-sdk#1-update-color-scheme-for-lnco",
-    "@graasp/stylis-plugin-rtl": "^2",
+    "@graasp/stylis-plugin-rtl": "2.2.0",
     "@graasp/translations": "1.35.1",
     "@graasp/ui": "https://github.com/lnco-epfl/graasp-ui#1-update-ui-for-lnco-graasp",
     "@mui/icons-material": "5.16.4",
