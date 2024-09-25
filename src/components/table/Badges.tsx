@@ -9,6 +9,7 @@ type ItemStatuses = {
   isPinned: boolean;
   isCollapsible: boolean;
   isHidden: boolean;
+  isPublic: boolean;
 };
 
 const DEFAULT_ITEM_STATUSES: ItemStatuses = {
@@ -16,6 +17,7 @@ const DEFAULT_ITEM_STATUSES: ItemStatuses = {
   isPinned: false,
   isCollapsible: false,
   isHidden: false,
+  isPublic: false,
 };
 
 export type ItemsStatuses = { [key: DiscriminatedItem['id']]: ItemStatuses };
@@ -36,6 +38,7 @@ export const useItemsStatuses = ({
       ...r.settings,
     };
     const isHidden = Boolean(r.hidden);
+    const isPublic = Boolean(r.public);
 
     return {
       ...acc,
@@ -44,6 +47,7 @@ export const useItemsStatuses = ({
         isPinned,
         isCollapsible,
         isHidden,
+        isPublic,
       },
     };
   }, {} as ItemsStatuses);
@@ -52,7 +56,8 @@ const Badges = ({ itemsStatuses, data: item }: ChildCompProps): JSX.Element => {
   const { t } = useBuilderTranslation();
   // this is useful because the item.id we are looking for may not be present and the itemStatuses will be undefined
   const itemStatuses = itemsStatuses?.[item.id] || DEFAULT_ITEM_STATUSES;
-  const { showChatbox, isPinned, isHidden, isCollapsible } = itemStatuses;
+  const { showChatbox, isPinned, isHidden, isCollapsible, isPublic } =
+    itemStatuses;
   return (
     <ItemBadges
       isPinned={isPinned}
@@ -63,6 +68,8 @@ const Badges = ({ itemsStatuses, data: item }: ChildCompProps): JSX.Element => {
       isCollapsibleTooltip={t(BUILDER.STATUS_TOOLTIP_IS_COLLAPSIBLE)}
       showChatbox={showChatbox}
       showChatboxTooltip={t(BUILDER.STATUS_TOOLTIP_SHOW_CHATBOX)}
+      isPublic={isPublic}
+      isPublicTooltip={t(BUILDER.STATUS_TOOLTIP_IS_PUBLIC)}
     />
   );
 };

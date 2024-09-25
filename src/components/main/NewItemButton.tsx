@@ -42,7 +42,7 @@ const NewItemButton = ({
           sx={{
             background: theme.palette.primary.main,
             '&:hover': { background: 'grey' },
-            color: '#FFF',
+            color: theme.palette.secondary.main,
           }}
         >
           <AddIcon />
