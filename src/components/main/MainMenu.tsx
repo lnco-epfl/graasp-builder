@@ -1,25 +1,13 @@
+// Note: On Rebasing, lot of the imports are related to the tutorial link at the bottom, can be removed
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import {
-  Box,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-} from '@mui/material';
+import { Box, Stack } from '@mui/material';
 
 import { AccountType } from '@graasp/sdk';
 import { EpflLogo, MainMenu as GraaspMainMenu, MenuItem } from '@graasp/ui';
 
-import {
-  BookOpenTextIcon,
-  BookmarkIcon,
-  HomeIcon,
-  TrashIcon,
-} from 'lucide-react';
+import { BookmarkIcon, HomeIcon, TrashIcon } from 'lucide-react';
 
-import { TUTORIALS_LINK } from '@/config/constants';
 import { hooks } from '@/config/queryClient';
 
 import { useBuilderTranslation } from '../../config/i18n';
@@ -31,24 +19,6 @@ import {
 import { BUILDER } from '../../langs/constants';
 
 const epflLogoBottom = <EpflLogo height={20} />;
-
-const ResourceLinks = () => {
-  const { t } = useBuilderTranslation();
-  return (
-    <ListItem disablePadding>
-      <ListItemButton
-        href={TUTORIALS_LINK}
-        target="_blank"
-        data-umami-event="sidebar-tutorials"
-      >
-        <ListItemIcon>
-          <BookOpenTextIcon />
-        </ListItemIcon>
-        <ListItemText>{t(BUILDER.TUTORIALS)}</ListItemText>
-      </ListItemButton>
-    </ListItem>
-  );
-};
 
 const MainMenu = (): JSX.Element | null => {
   const { t } = useBuilderTranslation();
@@ -96,10 +66,9 @@ const MainMenu = (): JSX.Element | null => {
             text={t(BUILDER.MY_ITEMS_TITLE)}
           />
           {individualMenuItems}
-          <div style={{ margin: '0 auto' }}>{epflLogoBottom}</div>
         </Box>
         <Box>
-          <ResourceLinks />
+          <div style={{ margin: '0 auto' }}>{epflLogoBottom}</div>
         </Box>
       </Stack>
     </GraaspMainMenu>
