@@ -5,12 +5,12 @@ import {
   useSearchParams,
 } from 'react-router-dom';
 
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { IconButton } from '@mui/material';
 
+import { AccountType } from '@graasp/sdk';
 import { Navigation } from '@graasp/ui';
 
-import { Home } from 'lucide-react';
+import { ChevronRightIcon, Home } from 'lucide-react';
 
 import { useBuilderTranslation } from '../../config/i18n';
 import { HOME_PATH, buildItemPath } from '../../config/paths';
@@ -31,14 +31,11 @@ const Navigator = (): JSX.Element | null => {
   const { pathname } = useLocation();
   const { data: currentMember } = useCurrentMember();
   const { data: item, isLoading: isItemLoading } = useItem(itemId);
-  const itemPath = item?.path;
 
   const { pathname: location } = useLocation();
 
   const { data: parents, isLoading: areParentsLoading } = useParents({
     id: itemId,
-    path: itemPath,
-    enabled: !!itemPath,
   });
 
   if (isItemLoading || areParentsLoading) {
@@ -50,7 +47,7 @@ const Navigator = (): JSX.Element | null => {
 
   const renderRoot = () => {
     // no access to root if signed out
-    if (!currentMember) {
+    if (currentMember?.type !== AccountType.Individual) {
       return null;
     }
 
@@ -61,7 +58,7 @@ const Navigator = (): JSX.Element | null => {
             <Home />
           </IconButton>
         </Link>
-        <ArrowForwardIosIcon sx={{ m: 2 }} fontSize="inherit" />
+        <ChevronRightIcon />
       </>
     );
   };

@@ -2,6 +2,93 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.42.1](https://github.com/graasp/graasp-builder/compare/v2.42.0...v2.42.1) (2024-10-09)
+
+### Bug Fixes
+
+- show request membership only for forbidden access ([#1507](https://github.com/graasp/graasp-builder/issues/1507)) ([a900c25](https://github.com/graasp/graasp-builder/commit/a900c25628f910c08f5be60d4b095a91e1e8b8ed))
+
+## [2.42.0](https://github.com/graasp/graasp-builder/compare/v2.41.0...v2.42.0) (2024-10-07)
+
+### Features
+
+- **deps:** update TanStack Query to v5 ([#1446](https://github.com/graasp/graasp-builder/issues/1446)) ([dfd7197](https://github.com/graasp/graasp-builder/commit/dfd71972ef089d5f96b86ca541563a8bac3024f4))
+- show hidden setting in visibility section ([#1488](https://github.com/graasp/graasp-builder/issues/1488)) ([0e1bed2](https://github.com/graasp/graasp-builder/commit/0e1bed2f7eefc3a03720468e90439685c2a772b7))
+
+### Bug Fixes
+
+- **deps:** update dependency @graasp/translations to v1.39.0 ([#1467](https://github.com/graasp/graasp-builder/issues/1467)) ([67e7cdf](https://github.com/graasp/graasp-builder/commit/67e7cdfa4a77b67fcfc5a141ac8754ede44efea0))
+- **deps:** update dependency lucide-react to v0.446.0 ([#1469](https://github.com/graasp/graasp-builder/issues/1469)) ([f6e9ef1](https://github.com/graasp/graasp-builder/commit/f6e9ef121caf55012b06b3d003e475091d838817))
+- **deps:** update dependency lucide-react to v0.447.0 ([#1492](https://github.com/graasp/graasp-builder/issues/1492)) ([e5d549c](https://github.com/graasp/graasp-builder/commit/e5d549c9d6136b91f61e8c10a57546b8b22381ff))
+- **deps:** update mui (non-major) ([#1379](https://github.com/graasp/graasp-builder/issues/1379)) ([77206ea](https://github.com/graasp/graasp-builder/commit/77206eae00219fe9d6a9b83593b606f8eb6e0be4))
+- fix edit modal content and navigation ([#1499](https://github.com/graasp/graasp-builder/issues/1499)) ([13a053c](https://github.com/graasp/graasp-builder/commit/13a053cf41a63121c5434218028ca02cf46d6daa))
+- **german:** update flagging feature text ([#1484](https://github.com/graasp/graasp-builder/issues/1484)) ([d999fc7](https://github.com/graasp/graasp-builder/commit/d999fc7813e8523ba6c1973731fb3bfe4d3e4efd))
+- remove usage of `false` in component return ([#1487](https://github.com/graasp/graasp-builder/issues/1487)) ([9def0fb](https://github.com/graasp/graasp-builder/commit/9def0fb2edf176acb9358b2d07473895e01a04c8))
+
+## [2.41.0](https://github.com/graasp/graasp-builder/compare/v2.40.0...v2.41.0) (2024-09-27)
+
+### Features
+
+- use Thumbnails from PackedItem ([#1468](https://github.com/graasp/graasp-builder/issues/1468)) ([a353659](https://github.com/graasp/graasp-builder/commit/a353659cd8202e15ea559d6388e6338e9cc82540))
+
+### Bug Fixes
+
+- define container for drag selection ([#1481](https://github.com/graasp/graasp-builder/issues/1481)) ([62081e2](https://github.com/graasp/graasp-builder/commit/62081e2d92102b5f03f1c5a8163fe2fd54f8ca05))
+
+## [2.40.0](https://github.com/graasp/graasp-builder/compare/v2.39.0...v2.40.0) (2024-09-27)
+
+### Features
+
+- disable guest row in membership table ([#1479](https://github.com/graasp/graasp-builder/issues/1479)) ([5d2c0b0](https://github.com/graasp/graasp-builder/commit/5d2c0b0111c06cb4ab65169ed9d44c394558541b))
+- translate ar.json via GitLocalize ([#1475](https://github.com/graasp/graasp-builder/issues/1475)) ([9e92954](https://github.com/graasp/graasp-builder/commit/9e929541699bb0e304b74311e197d655b3696cdf))
+- translate de.json via GitLocalize ([#1474](https://github.com/graasp/graasp-builder/issues/1474)) ([31e89c3](https://github.com/graasp/graasp-builder/commit/31e89c33eb656ebfda657728ffda28eb211eb9e2))
+- translate es.json via GitLocalize ([#1473](https://github.com/graasp/graasp-builder/issues/1473)) ([aa25da1](https://github.com/graasp/graasp-builder/commit/aa25da16d49ed77ba1f249fdd83efa368efbfe78))
+- translate it.json via GitLocalize ([#1476](https://github.com/graasp/graasp-builder/issues/1476)) ([7f3ba1b](https://github.com/graasp/graasp-builder/commit/7f3ba1b384d62aeae7003cc9ec13f4dc49643670))
+- update french translations ([#1472](https://github.com/graasp/graasp-builder/issues/1472)) ([7f5546c](https://github.com/graasp/graasp-builder/commit/7f5546cf05eea9acc67df512746daf68d6dadd96))
+
+## [2.39.0](https://github.com/graasp/graasp-builder/compare/v2.38.0...v2.39.0) (2024-09-23)
+
+### Features
+
+- allow user to request membership ([#1424](https://github.com/graasp/graasp-builder/issues/1424)) ([ddb0012](https://github.com/graasp/graasp-builder/commit/ddb00123634d8e0b77871a0568064ffa528d5390))
+
+## [2.38.0](https://github.com/graasp/graasp-builder/compare/v2.37.0...v2.38.0) (2024-09-20)
+
+### Features
+
+- show item login message on customer pages ([#1460](https://github.com/graasp/graasp-builder/issues/1460)) ([7e44954](https://github.com/graasp/graasp-builder/commit/7e4495444592031663513543577b9c165428e434))
+- update SDK to v4.28.0 to get latest ZIP max size ([#1441](https://github.com/graasp/graasp-builder/issues/1441)) ([d521a67](https://github.com/graasp/graasp-builder/commit/d521a671b3a1592b98ba9e32f2f0c9ef7214aa04))
+
+### Bug Fixes
+
+- **deps:** update dependency axios to v1.7.7 ([#1421](https://github.com/graasp/graasp-builder/issues/1421)) ([be6875b](https://github.com/graasp/graasp-builder/commit/be6875bfb3fca04aad8510ecffd0492cd2a9f6ad))
+- **deps:** update dependency filesize to v10.1.6 ([#1439](https://github.com/graasp/graasp-builder/issues/1439)) ([44050e6](https://github.com/graasp/graasp-builder/commit/44050e60ebb3483f52363dc2165d15a550d568ed))
+- **deps:** update dependency i18next to v23.15.1 ([#1451](https://github.com/graasp/graasp-builder/issues/1451)) ([0935b37](https://github.com/graasp/graasp-builder/commit/0935b3762d7695a49a26261c3991f25983a38e66))
+- **deps:** update dependency lucide-react to v0.441.0 ([#1455](https://github.com/graasp/graasp-builder/issues/1455)) ([f5f27fb](https://github.com/graasp/graasp-builder/commit/f5f27fb026cc5129a49e306d28e690a3a65ad108))
+- **deps:** update dependency react-image-crop to v11.0.7 ([#1440](https://github.com/graasp/graasp-builder/issues/1440)) ([b1884b2](https://github.com/graasp/graasp-builder/commit/b1884b2bbcdd7158499b46222f5e445a1c88650e))
+- **deps:** update dependency stylis to v4.3.4 ([#1442](https://github.com/graasp/graasp-builder/issues/1442)) ([b317b89](https://github.com/graasp/graasp-builder/commit/b317b891f1fef5b6f0379501ff9e8acc0f864aa7))
+- **deps:** update graasp packages ([#1450](https://github.com/graasp/graasp-builder/issues/1450)) ([eda7d06](https://github.com/graasp/graasp-builder/commit/eda7d067e927f35c62cd54e14b98704597c01c1c))
+- **deps:** update react-router monorepo to v6.26.2 ([#1445](https://github.com/graasp/graasp-builder/issues/1445)) ([e999e6b](https://github.com/graasp/graasp-builder/commit/e999e6b0f265f9f583ec82cce1004e781af26e16))
+- **german:** update translations ([#1457](https://github.com/graasp/graasp-builder/issues/1457)) ([0780256](https://github.com/graasp/graasp-builder/commit/0780256d5612606b15c82c1c61b66407f0a89c9a))
+- update translations and dependencies ([#1462](https://github.com/graasp/graasp-builder/issues/1462)) ([3646eef](https://github.com/graasp/graasp-builder/commit/3646eef6e46c7d292be75562087948c7e8c29ae1))
+
+## [2.37.0](https://github.com/graasp/graasp-builder/compare/v2.36.0...v2.37.0) (2024-09-13)
+
+### Features
+
+- add helper text ([#1419](https://github.com/graasp/graasp-builder/issues/1419)) ([34946e3](https://github.com/graasp/graasp-builder/commit/34946e3a5b944632f348d82e14d28512b88c7bf3))
+- update for item login ([#1407](https://github.com/graasp/graasp-builder/issues/1407)) ([3e7f6db](https://github.com/graasp/graasp-builder/commit/3e7f6db830040e3975bc3ed3534d52aa3b70425a))
+
+### Bug Fixes
+
+- **deps:** update dependency @air/react-drag-to-select to v5.0.10 ([#1414](https://github.com/graasp/graasp-builder/issues/1414)) ([da0d1da](https://github.com/graasp/graasp-builder/commit/da0d1da7036b63ac6f99420a5a8d491a1bdd85b6))
+- **deps:** update dependency i18next to v23.12.7 ([#1415](https://github.com/graasp/graasp-builder/issues/1415)) ([f729c6e](https://github.com/graasp/graasp-builder/commit/f729c6e1422255f42b19e3edcb1a3ae338e79b65))
+- **deps:** update emotion monorepo ([#1378](https://github.com/graasp/graasp-builder/issues/1378)) ([949d0c3](https://github.com/graasp/graasp-builder/commit/949d0c308baeda450548cce7a29d35e431c8a808))
+- fix post item membership ([#1427](https://github.com/graasp/graasp-builder/issues/1427)) ([06414c2](https://github.com/graasp/graasp-builder/commit/06414c22915e2e6764d23984fb338f7305d05def))
+- udpate menu icons to lucide ([#1432](https://github.com/graasp/graasp-builder/issues/1432)) ([f14deae](https://github.com/graasp/graasp-builder/commit/f14deae2c206dbfb4315fbf19d8d535ea78e2f3c))
+- update item menu icons ([#1435](https://github.com/graasp/graasp-builder/issues/1435)) ([ca3e099](https://github.com/graasp/graasp-builder/commit/ca3e099ebe210dbbf4bdd5654f07c4dc76a4bf14))
+- update mode icons ([#1434](https://github.com/graasp/graasp-builder/issues/1434)) ([dfb9288](https://github.com/graasp/graasp-builder/commit/dfb9288923a99f4cefda55eb4e6baf07b6f97aeb))
+
 ## [2.36.0](https://github.com/graasp/graasp-builder/compare/v2.35.1...v2.36.0) (2024-08-19)
 
 ### Features

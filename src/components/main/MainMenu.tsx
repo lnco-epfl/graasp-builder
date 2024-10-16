@@ -1,11 +1,25 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
-// import { BugReport } from '@mui/icons-material';
-import { Bookmark, Delete, Folder } from '@mui/icons-material';
-import { Stack, styled } from '@mui/material';
+import {
+  Box,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Stack,
+} from '@mui/material';
 
+import { AccountType } from '@graasp/sdk';
 import { EpflLogo, MainMenu as GraaspMainMenu, MenuItem } from '@graasp/ui';
 
+import {
+  BookOpenTextIcon,
+  BookmarkIcon,
+  HomeIcon,
+  TrashIcon,
+} from 'lucide-react';
+
+import { TUTORIALS_LINK } from '@/config/constants';
 import { hooks } from '@/config/queryClient';
 
 import { useBuilderTranslation } from '../../config/i18n';
@@ -16,14 +30,28 @@ import {
 } from '../../config/paths';
 import { BUILDER } from '../../langs/constants';
 
-const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
-  '&:hover': {
-    color: theme.palette.primary.main,
-  },
-}));
+const epflLogoBottom = <EpflLogo height={20} />;
 
-const MainMenu = (): JSX.Element => {
-  const { t: translateBuilder } = useBuilderTranslation();
+const ResourceLinks = () => {
+  const { t } = useBuilderTranslation();
+  return (
+    <ListItem disablePadding>
+      <ListItemButton
+        href={TUTORIALS_LINK}
+        target="_blank"
+        data-umami-event="sidebar-tutorials"
+      >
+        <ListItemIcon>
+          <BookOpenTextIcon />
+        </ListItemIcon>
+        <ListItemText>{t(BUILDER.TUTORIALS)}</ListItemText>
+      </ListItemButton>
+    </ListItem>
+  );
+};
+
+const MainMenu = (): JSX.Element | null => {
+  const { t } = useBuilderTranslation();
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { data: member } = hooks.useCurrentMember();
@@ -32,86 +60,47 @@ const MainMenu = (): JSX.Element => {
     navigate(path);
   };
 
-  // sentry feedback feature
-  // const openBugReport = () => {
-  //   const eventId = captureMessage(
-  //     `Graasp Builder | User Feedback ${Date.now()}`,
-  //   );
-  //   // this will be reported in sentry user feedback issues
-  //   showReportDialog({
-  //     eventId,
-  //     title: translateBuilder(BUILDER.REPORT_A_BUG),
-  //     lang: i18n.language || DEFAULT_LANG,
-  //   });
-  // };
+  if (!member || !member.id) {
+    return null;
+  }
 
-  // const reportBugLink = (
-  //   <ListItem disablePadding>
-  //     <ListItemButton onClick={openBugReport}>
-  //       <ListItemIcon>
-  //         <BugReport />
-  //       </ListItemIcon>
-  //       <ListItemText>{translateBuilder(BUILDER.REPORT_A_BUG)}</ListItemText>
-  //     </ListItemButton>
-  //   </ListItem>
-  // );
-
-  // const resourceLinks = (
-  //   <ListItem disablePadding>
-  //     <ListItemButton href={TUTORIALS_LINK} target="_blank">
-  //       <ListItemIcon>
-  //         <AutoStories />
-  //       </ListItemIcon>
-  //       <ListItemText>{translateBuilder(BUILDER.TUTORIALS)}</ListItemText>
-  //     </ListItemButton>
-  //   </ListItem>
-  // );
-
-  const epflLogoBottom = <EpflLogo height={20} />;
-
-  const renderAuthenticatedMemberMenuItems = () => {
-    if (!member || !member.id) {
-      return (
-        <StyledMenuItem
-          disabled
-          text={translateBuilder(BUILDER.HOME_TITLE)}
-          icon={<Folder />}
-        />
-      );
-    }
-
-    return (
-      <div>
+  const individualMenuItems =
+    member.type === AccountType.Individual ? (
+      <>
         <MenuItem
-          onClick={() => goTo(HOME_PATH)}
-          selected={pathname === HOME_PATH}
-          icon={<Folder />}
-          text={translateBuilder(BUILDER.MY_ITEMS_TITLE)}
-        />
-        <MenuItem
+          dataUmamiEvent="sidebar-bookmarks"
           onClick={() => goTo(BOOKMARKED_ITEMS_PATH)}
           selected={pathname === BOOKMARKED_ITEMS_PATH}
-          text={translateBuilder(BUILDER.BOOKMARKED_ITEMS_TITLE)}
-          icon={<Bookmark />}
+          text={t(BUILDER.BOOKMARKED_ITEMS_TITLE)}
+          icon={<BookmarkIcon />}
         />
         <MenuItem
+          dataUmamiEvent="sidebar-trash"
           onClick={() => goTo(RECYCLE_BIN_PATH)}
           selected={pathname === RECYCLE_BIN_PATH}
-          text={translateBuilder(BUILDER.RECYCLE_BIN_TITLE)}
-          icon={<Delete />}
+          text={t(BUILDER.RECYCLE_BIN_TITLE)}
+          icon={<TrashIcon />}
         />
-      </div>
-    );
-  };
+      </>
+    ) : null;
 
   return (
     <GraaspMainMenu fullHeight>
       <Stack direction="column" height="100%" justifyContent="space-between">
-        {renderAuthenticatedMemberMenuItems()}
-        <div style={{ margin: '0 auto' }}>
-          {/* {reportBugLink} */}
-          {epflLogoBottom}
-        </div>
+        <Box>
+          <MenuItem
+            dataUmamiEvent="sidebar-home"
+            onClick={() => goTo(HOME_PATH)}
+            selected={pathname === HOME_PATH}
+            icon={<HomeIcon />}
+            text={t(BUILDER.MY_ITEMS_TITLE)}
+          />
+          {individualMenuItems}
+          <div style={{ margin: '0 auto' }}>{epflLogoBottom}</div>
+        </Box>
+        <Box>
+          <ResourceLinks />
+        </Box>
       </Stack>
     </GraaspMainMenu>
   );

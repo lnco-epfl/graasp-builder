@@ -1,8 +1,9 @@
+import { ReactNode } from 'react';
 import { Link, useParams } from 'react-router-dom';
 
 import { Stack, styled, useTheme } from '@mui/material';
 
-import { Context } from '@graasp/sdk';
+import { AccountType, Context } from '@graasp/sdk';
 import {
   Main as GraaspMain,
   Platform,
@@ -13,6 +14,7 @@ import {
 
 import { HOST_MAP } from '@/config/externalPaths';
 import { useBuilderTranslation } from '@/config/i18n';
+import { hooks } from '@/config/queryClient';
 import { BUILDER } from '@/langs/constants';
 
 import { HOME_PATH, ITEM_ID_PARAMS } from '../../config/paths';
@@ -32,8 +34,14 @@ const StyledLink = styled(Link)(() => ({
   display: 'flex',
   alignItems: 'center',
 }));
-const LinkComponent = ({ children }: { children: JSX.Element }) => (
-  <StyledLink to={HOME_PATH}>{children}</StyledLink>
+const LinkComponent = ({ children }: { children: ReactNode }) => (
+  <StyledLink
+    data-umami-event="header-home-link"
+    data-umami-event-context={Context.Builder}
+    to={HOME_PATH}
+  >
+    {children}
+  </StyledLink>
 );
 
 // small converter for HOST_MAP into a usePlatformNavigation mapper
@@ -42,11 +50,12 @@ export const platformsHostsMap = defaultHostsMapper({
   [Platform.Analytics]: HOST_MAP.analytics,
 });
 
-type Props = { children: JSX.Element | (JSX.Element & string) };
+type Props = { children: ReactNode };
 
-const Main = ({ children }: Props): JSX.Element => {
+export const Main = ({ children }: Props): JSX.Element => {
   const { t } = useBuilderTranslation();
   const theme = useTheme();
+  const { data: currentMember } = hooks.useCurrentMember();
 
   const itemId = useParams()[ITEM_ID_PARAMS];
 
@@ -73,6 +82,14 @@ const Main = ({ children }: Props): JSX.Element => {
   );
   return (
     <GraaspMain
+      open={
+        /**
+         * only override the open prop when user is not logged in
+         * we want to keep the default behavior when the user is logged in
+         * we close the drawer if the user is a guest
+         */
+        currentMember?.type === AccountType.Individual ? undefined : false
+      }
       context={Context.Builder}
       headerId={HEADER_APP_BAR_ID}
       drawerOpenAriaLabel={t(BUILDER.ARIA_OPEN_DRAWER)}

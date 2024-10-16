@@ -1,6 +1,14 @@
 import { useState } from 'react';
 
-import { Alert, Box, LinearProgress, Stack } from '@mui/material';
+import {
+  Alert,
+  Box,
+  Container,
+  LinearProgress,
+  Button as MuiButton,
+  Stack,
+  Typography,
+} from '@mui/material';
 
 import { Button } from '@graasp/ui';
 
@@ -9,7 +17,10 @@ import {
   SelectionContextProvider,
   useSelectionContext,
 } from '@/components/main/list/SelectionContext';
-import { useDragSelection } from '@/components/main/list/useDragSelection';
+import {
+  DragContainerStack,
+  useDragSelection,
+} from '@/components/main/list/useDragSelection';
 import { ITEM_PAGE_SIZE } from '@/config/constants';
 import { ShowOnlyMeChangeType } from '@/config/types';
 import { ItemLayoutMode, Ordering } from '@/enums';
@@ -37,6 +48,8 @@ import { useSorting } from '../../table/useSorting';
 import NoItemFilters from '../NoItemFilters';
 import PageWrapper from '../PageWrapper';
 import HomeSelectionToolbar from './HomeSelectionToolbar';
+
+const CONTAINER_ID = 'home-items-container';
 
 const HomeScreenContent = ({ searchText }: { searchText: string }) => {
   const { t: translateBuilder } = useBuilderTranslation();
@@ -67,7 +80,7 @@ const HomeScreenContent = ({ searchText }: { searchText: string }) => {
       { pageSize: ITEM_PAGE_SIZE },
     );
 
-  const DragSelection = useDragSelection();
+  const DragSelection = useDragSelection({ containerId: CONTAINER_ID });
 
   const onShowOnlyMeChange: ShowOnlyMeChangeType = (checked) => {
     setShowOnlyMe(checked);
@@ -97,7 +110,7 @@ const HomeScreenContent = ({ searchText }: { searchText: string }) => {
         ? data.pages.map(({ data: d }) => d.length).reduce((a, b) => a + b, 0)
         : 0;
       content = (
-        <>
+        <DragContainerStack id={CONTAINER_ID}>
           <ItemsTable
             canMove={!searchText}
             id={ACCESSIBLE_ITEMS_TABLE_ID}
@@ -120,7 +133,7 @@ const HomeScreenContent = ({ searchText }: { searchText: string }) => {
               <NewItemButton type="icon" />
             </Stack>
           )}
-        </>
+        </DragContainerStack>
       );
     } else if (itemTypes.length || searchText) {
       content = <NoItemFilters searchText={searchText} />;
@@ -174,7 +187,7 @@ const HomeScreenContent = ({ searchText }: { searchText: string }) => {
             </Stack>
           )}
         </Stack>
-        <Stack>
+        <Stack height="100%">
           {content}
           {data && isFetching && (
             <Box sx={{ width: '100%' }}>
@@ -197,28 +210,47 @@ const HomeScreenContent = ({ searchText }: { searchText: string }) => {
 
 const HomeScreen = (): JSX.Element => {
   const { t: translateBuilder } = useBuilderTranslation();
+  const { data: currentMember } = hooks.useCurrentMember();
 
   const itemSearch = useItemSearch();
 
+  if (currentMember) {
+    return (
+      <PageWrapper
+        title={translateBuilder(BUILDER.MY_ITEMS_TITLE)}
+        options={
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="flex-end"
+            spacing={1}
+          >
+            {itemSearch.input}
+            <NewItemButton key="newButton" size="medium" />
+          </Stack>
+        }
+      >
+        <SelectionContextProvider>
+          <HomeScreenContent searchText={itemSearch.text} />
+        </SelectionContextProvider>
+      </PageWrapper>
+    );
+  }
+
+  // not logged in - redirection
   return (
-    <PageWrapper
-      title={translateBuilder(BUILDER.MY_ITEMS_TITLE)}
-      options={
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="flex-end"
-          spacing={1}
-        >
-          {itemSearch.input}
-          <NewItemButton key="newButton" size="medium" />
-        </Stack>
-      }
-    >
-      <SelectionContextProvider>
-        <HomeScreenContent searchText={itemSearch.text} />
-      </SelectionContextProvider>
-    </PageWrapper>
+    <Stack height="100%" justifyContent="center" alignItems="center">
+      <Container maxWidth="md">
+        <Alert severity="warning">
+          <Typography textAlign="right">
+            {translateBuilder(BUILDER.REDIRECTION_TEXT)}
+          </Typography>
+          <MuiButton variant="text" sx={{ textTransform: 'none' }}>
+            {translateBuilder(BUILDER.REDIRECTION_BUTTON)}
+          </MuiButton>
+        </Alert>
+      </Container>
+    </Stack>
   );
 };
 

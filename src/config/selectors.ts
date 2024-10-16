@@ -51,6 +51,8 @@ export const SHARE_ITEM_EMAIL_INPUT_ID = 'shareItemModalEmailInput';
 export const buildPermissionOptionId = (id: string): string =>
   `permission-${id}`;
 export const SHARE_ITEM_SHARE_BUTTON_ID = 'shareItemModalShareButton';
+export const SHARE_BUTTON_SELECTOR = 'shareItem';
+export const SHARE_BUTTON_MORE_ID = 'shareItemMore';
 
 export const PUBLISHED_ITEMS_ID = 'publishedItems';
 export const BOOKMARKED_ITEMS_ID = 'bookmarkedItems';
@@ -71,7 +73,6 @@ export const ITEM_LOGIN_SIGN_IN_PASSWORD_ID = 'itemLoginSignInPassword';
 export const ITEM_LOGIN_SIGN_IN_BUTTON_ID = 'itemLoginSignInButton';
 export const ITEM_SCREEN_MAIN_ID = 'itemScreenMain';
 export const ITEM_LOGIN_SCREEN_FORBIDDEN_ID = 'itemLoginScreenForbidden';
-export const ITEM_LOGIN_SIGN_IN_MEMBER_ID_ID = 'itemLoginSignInMemberId';
 export const ITEM_LOGIN_SIGN_IN_MODE_ID = 'itemLoginSignInMode';
 export const ITEM_MAIN_CLASS = 'itemMain';
 export const HOME_ERROR_ALERT_ID = 'homeErrorAlert';
@@ -81,6 +82,7 @@ export const PUBLISHED_ITEMS_ERROR_ALERT_ID = 'publishedItemsErrorAlert';
 export const RECYCLED_ITEMS_ERROR_ALERT_ID = 'recycledItemsErrorAlert';
 export const ITEM_MENU_SHORTCUT_BUTTON_CLASS = 'itemMenuShortcutButton';
 export const ITEM_MENU_DUPLICATE_BUTTON_CLASS = 'itemMenuDuplicateButton';
+export const ITEM_MENU_BOOKMARK_BUTTON_CLASS = 'itemMenuBookmarkButton';
 export const ITEM_MENU_FAVORITE_BUTTON_CLASS = 'itemMenuFavoriteButton';
 export const ITEM_MENU_FLAG_BUTTON_CLASS = 'itemMenuFlagButton';
 export const buildFlagListItemId = (type: string): string =>
@@ -116,6 +118,8 @@ export const ITEM_MEMBERSHIP_PERMISSION_SELECT_CLASS =
   'itemMembershipPermissionSelect';
 export const buildItemMembershipRowDeleteButtonId = (id: string): string =>
   `itemMembershipRowDeleteButtonId-${id}`;
+export const buildItemMembershipRowEditButtonId = (id: string): string =>
+  `itemMembershipRowEditButtonId-${id}`;
 export const ITEM_INFORMATION_ICON_IS_OPEN_CLASS = 'itemInformationIconIsOpen';
 export const ITEM_SEARCH_INPUT_ID = 'itemSearchInput';
 export const ITEMS_GRID_NO_SEARCH_RESULT_ID = 'itemsGridNoSearchResult';
@@ -169,6 +173,7 @@ export const SETTINGS_CHATBOX_TOGGLE_ID = 'settingsChatboxToggle';
 export const SETTINGS_COLLAPSE_TOGGLE_ID = 'settingsCollapseToggle';
 export const SETTINGS_RESIZE_TOGGLE_ID = 'settingsResizeToggle';
 export const SETTINGS_SAVE_ACTIONS_TOGGLE_ID = 'settingsSaveActionsToggle';
+export const SETTINGS_HIDE_ITEM_ID = 'settingsHideItem';
 
 export const ITEMS_TABLE_RESTORE_SELECTED_ITEMS_ID =
   'itemsTableRestoreSelectedItems';
@@ -179,7 +184,6 @@ export const ITEM_CARD_MEDIA_CLASSNAME = 'itemCardMedia';
 export const ITEM_CARD_HEADER_CLASSNAME = 'itemCardHeader';
 export const THUMBNAIL_SETTING_UPLOAD_BUTTON_ID =
   'thumbnailSettingUploadButton';
-export const THUMBNAIL_SETTING_UPLOAD_INPUT_ID = 'thumbnailSettingUploadInput';
 export const CLEAR_CHAT_SETTING_ID = 'clearChatSettingButton';
 export const CLEAR_CHAT_DIALOG_ID = 'clearChatDialog';
 export const CLEAR_CHAT_CANCEL_BUTTON_ID = 'clearChatCancelButton';
@@ -213,10 +217,10 @@ export const ITEM_PUBLISH_SECTION_TITLE_ID = 'itemPublishSectionTitle';
 export const APP_NAVIGATION_PLATFORM_SWITCH_ID = 'appNavigationPlatformSwitch';
 // cannot use graasp ui because it slows down a lot cypress
 export const APP_NAVIGATION_PLATFORM_SWITCH_BUTTON_IDS = {
-  Builder: 'appNavigationPlatformSwitchButtonBuilder',
-  Player: 'appNavigationPlatformSwitchButtonPlayer',
-  Library: 'appNavigationPlatformSwitchButtonLibrary',
-  Analytics: 'appNavigationPlatformSwitchButtonAnalytics',
+  builder: 'appNavigationPlatformSwitchButtonBuilder',
+  player: 'appNavigationPlatformSwitchButtonPlayer',
+  library: 'appNavigationPlatformSwitchButtonLibrary',
+  analytics: 'appNavigationPlatformSwitchButtonAnalytics',
 };
 
 export const buildItemPublicationButton = (status: PublicationStatus): string =>
@@ -227,8 +231,6 @@ export const buildInvitationEmailTableRowId = (id: string): string =>
   `invitationEmailTableRow-${id}`;
 export const buildInvitationTableRowId = (id: string): string =>
   `invitationTableRow-${id}`;
-export const buildInvitationTableRowSelector = (id: string): string =>
-  `[data-cy="${buildInvitationTableRowId(id)}"]`;
 export const ITEM_RESEND_INVITATION_BUTTON_CLASS = 'itemResendInvitationButton';
 export const CREATE_MEMBERSHIP_FORM_ID = 'createMembershipFormId';
 export const NAVIGATION_ROOT_ID = 'navigationRoot';
@@ -362,9 +364,6 @@ export const buildDescriptionPlacementId = (
   placement: DescriptionPlacementType,
 ): string => `itemSettingDescriptionPlacement-${placement}`;
 
-export const ITEM_THUMBNAIL_CONTAINER_ID = 'itemThumbnailContainer';
-export const ITEM_THUMBNAIL_DELETE_BTN_ID = 'itemThumbnailDeleteBtn';
-
 export const DROPZONE_SELECTOR = '[role="dropzone"]';
 export const buildMapViewId = (parentId?: string): string =>
   `map-view-${parentId}`;
@@ -434,3 +433,20 @@ export const RECYCLE_BIN_RESTORE_MANY_ITEMS_BUTTON_ID =
 export const COPY_MANY_ITEMS_BUTTON_SELECTOR = `.lucide-copy`;
 export const MOVE_MANY_ITEMS_BUTTON_SELECTOR = `.lucide-move`;
 export const DELETE_SINGLE_ITEM_BUTTON_SELECTOR = `.lucide-trash`;
+export const PREVENT_GUEST_MESSAGE_ID = 'preventGuestMessage';
+export const REQUEST_MEMBERSHIP_BUTTON_ID = 'requestMembershipButton';
+export const MEMBERSHIP_REQUEST_PENDING_SCREEN_SELECTOR =
+  'membershipRequestPendingScreen';
+export const MEMBERSHIPS_TAB_SELECTOR = `membershipsTab`;
+export const MEMBERSHIP_REQUESTS_TAB_SELECTOR = `membershipRequestsTab`;
+
+export const MEMBERSHIP_REQUESTS_EMPTY_SELECTOR = 'membershipRequestsEmpty';
+export const buildMembershipRequestRowSelector = (memberId: string): string =>
+  `membershipRequestRow-${memberId}`;
+export const MEMBERSHIP_REQUEST_ACCEPT_BUTTON_SELECTOR =
+  'membershipRequestAcceptButton';
+
+export const MEMBERSHIP_REQUEST_REJECT_BUTTON_SELECTOR =
+  'membershipRequestRejectButton';
+export const ENROLL_BUTTON_SELECTOR = 'enrollButton';
+export const VISIBILITY_HIDDEN_ALERT_ID = 'visibilityHiddenAlert';

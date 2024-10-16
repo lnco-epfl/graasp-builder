@@ -4,6 +4,7 @@ import { MoreVert } from '@mui/icons-material';
 import { Divider, IconButton, Menu } from '@mui/material';
 
 import {
+  AccountType,
   ItemType,
   PackedItem,
   PermissionLevel,
@@ -39,7 +40,7 @@ type Props = {
 /**
  * Menu of actions for item card
  */
-const ItemMenuContent = ({ item }: Props): JSX.Element => {
+const ItemMenuContent = ({ item }: Props): JSX.Element | null => {
   const { data: member } = hooks.useCurrentMember();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -79,6 +80,125 @@ const ItemMenuContent = ({ item }: Props): JSX.Element => {
     item.permission &&
     PermissionLevelCompare.gte(item.permission, PermissionLevel.Admin);
 
+  if (!member) {
+    return null;
+  }
+
+  const modificationMenus = [
+    canWrite ? (
+      <EditButton
+        onClick={() => {
+          openEditModal();
+          closeMenu();
+        }}
+        key="edit"
+        itemId={item.id}
+        type={ActionButton.MENU_ITEM}
+      />
+    ) : (
+      false
+    ),
+    member.type === AccountType.Individual ? (
+      <CopyButton
+        key="copy"
+        type={ActionButton.MENU_ITEM}
+        onClick={() => {
+          openCopyModal();
+          closeMenu();
+        }}
+      />
+    ) : (
+      false
+    ),
+    canWrite ? <DuplicateButton key="duplicate" item={item} /> : false,
+    canAdmin ? (
+      <MoveButton
+        key="move"
+        type={ActionButton.MENU_ITEM}
+        onClick={() => {
+          openMoveModal();
+          closeMenu();
+        }}
+      />
+    ) : (
+      false
+    ),
+  ].filter(Boolean) as JSX.Element[];
+
+  const visibilityMenus = [
+    ...(canWrite
+      ? [
+          <HideButton key="hide" type={ActionButton.MENU_ITEM} item={item} />,
+          <PinButton key="pin" type={ActionButton.MENU_ITEM} item={item} />,
+        ]
+      : []),
+
+    canWrite && item.type !== ItemType.FOLDER ? (
+      <CollapseButton
+        key="collapse"
+        type={ActionButton.MENU_ITEM}
+        item={item}
+      />
+    ) : (
+      false
+    ),
+  ].filter(Boolean) as JSX.Element[];
+
+  const miscMenus = [
+    ...(member.type === AccountType.Individual
+      ? [
+          <CreateShortcutButton
+            key="shortcut"
+            onClick={() => {
+              openCreateShortcutModal();
+              closeMenu();
+            }}
+          />,
+          <BookmarkButton
+            size="medium"
+            key="bookmark"
+            type={ActionButton.MENU_ITEM}
+            item={item}
+          />,
+        ]
+      : []),
+    canWrite ? (
+      <ItemSettingsButton
+        key="settings"
+        itemId={item.id}
+        type={ActionButton.MENU_ITEM}
+      />
+    ) : (
+      false
+    ),
+  ].filter(Boolean) as JSX.Element[];
+
+  const destructiveMenus = [
+    member?.id ? <FlagButton item={item} /> : false,
+    canAdmin ? (
+      <RecycleButton
+        key="recycle"
+        type={ActionButton.MENU_ITEM}
+        itemIds={[item.id]}
+        onClick={closeMenu}
+      />
+    ) : (
+      false
+    ),
+  ].filter(Boolean) as JSX.Element[];
+
+  // put all menus together and intersperse the dividers between the groups
+  const menus = [
+    modificationMenus,
+    visibilityMenus,
+    miscMenus,
+    destructiveMenus,
+  ]
+    // remove empty arrays
+    .filter((e) => e.length > 0)
+    .flatMap((e) => [<Divider />, ...e])
+    .slice(1);
+
   return (
     <>
       <CopyModal
@@ -106,92 +226,7 @@ const ItemMenuContent = ({ item }: Props): JSX.Element => {
         <MoreVert />
       </IconButton>
       <Menu id={internalId} anchorEl={anchorEl} open={open} onClose={closeMenu}>
-        {canWrite && (
-          <EditButton
-            onClick={() => {
-              openEditModal();
-              closeMenu();
-            }}
-            key="edit"
-            item={item}
-            type={ActionButton.MENU_ITEM}
-          />
-        )}
-        {member?.id && [
-          <CopyButton
-            key="copy"
-            type={ActionButton.MENU_ITEM}
-            onClick={() => {
-              openCopyModal();
-              closeMenu();
-            }}
-          />,
-          <DuplicateButton key="duplicate" item={item} />,
-        ]}
-        {canAdmin && (
-          <MoveButton
-            key="move"
-            type={ActionButton.MENU_ITEM}
-            onClick={() => {
-              openMoveModal();
-              closeMenu();
-            }}
-          />
-        )}
-        <Divider />
-
-        {canWrite && [
-          <HideButton key="hide" type={ActionButton.MENU_ITEM} item={item} />,
-          <PinButton key="pin" type={ActionButton.MENU_ITEM} item={item} />,
-        ]}
-
-        {canWrite && item.type !== ItemType.FOLDER && (
-          <CollapseButton
-            key="collapse"
-            type={ActionButton.MENU_ITEM}
-            item={item}
-          />
-        )}
-
-        <Divider />
-
-        {member?.id && [
-          <CreateShortcutButton
-            key="shortcut"
-            onClick={() => {
-              openCreateShortcutModal();
-              closeMenu();
-            }}
-          />,
-          <BookmarkButton
-            size="medium"
-            key="bookmark"
-            type={ActionButton.MENU_ITEM}
-            item={item}
-          />,
-        ]}
-        {canWrite && (
-          <ItemSettingsButton
-            key="settings"
-            itemId={item.id}
-            type={ActionButton.MENU_ITEM}
-          />
-        )}
-
-        {canAdmin ? (
-          [
-            <Divider />,
-            <RecycleButton
-              key="recycle"
-              type={ActionButton.MENU_ITEM}
-              itemIds={[item.id]}
-              onClick={closeMenu}
-            />,
-          ]
-        ) : (
-          <Divider />
-        )}
-        {member?.id && <FlagButton item={item} />}
+        {menus.map((elem) => elem)}
       </Menu>
     </>
   );

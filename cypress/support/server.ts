@@ -4,6 +4,7 @@ import {
   App,
   Category,
   ChatMention,
+  CompleteMembershipRequest,
   DiscriminatedItem,
   HttpMethod,
   Invitation,
@@ -55,7 +56,6 @@ const {
   buildEditItemRoute,
   buildItemUnpublishRoute,
   buildGetItemRoute,
-  GET_OWN_ITEMS_ROUTE,
   buildGetMemberRoute,
   buildPostManyItemMembershipsRoute,
   ITEMS_ROUTE,
@@ -162,19 +162,6 @@ export const mockGetCurrentMember = (
       return reply({ statusCode: StatusCodes.OK, body: currentMember });
     },
   ).as('getCurrentMember');
-};
-
-export const mockGetOwnItems = (items: ItemForTest[]): void => {
-  cy.intercept(
-    {
-      method: HttpMethod.Get,
-      url: `${API_HOST}/${GET_OWN_ITEMS_ROUTE}`,
-    },
-    (req) => {
-      const own = items.filter(isRootItem);
-      req.reply(own);
-    },
-  ).as('getOwnItems');
 };
 
 export const mockGetAccessibleItems = (items: ItemForTest[]): void => {
@@ -371,7 +358,10 @@ export const mockGetItem = (
       }
 
       if (!checkMembership({ item, currentMember })) {
-        return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+        if (!currentMember) {
+          return reply({ statusCode: StatusCodes.UNAUTHORIZED, body: null });
+        }
+        return reply({ statusCode: StatusCodes.FORBIDDEN, body: null });
       }
 
       return reply({
@@ -947,26 +937,6 @@ export const mockPostItemLogin = (
   ).as('postItemLogin');
 };
 
-export const mockDeleteItemLoginSchemaRoute = (items: ItemForTest[]): void => {
-  cy.intercept(
-    {
-      method: HttpMethod.Delete,
-      // TODO: use build url
-      url: new RegExp(`${API_HOST}/items/${ID_FORMAT}/login-schema$`),
-    },
-    ({ reply, url }) => {
-      // check query match item login schema
-      const id = url.slice(API_HOST.length).split('/')[2];
-      const item: ItemForTest = getItemById(items, id);
-
-      // TODO: item login is not in extra anymore
-      item.itemLoginSchema = null;
-
-      reply(item);
-    },
-  ).as('deleteItemLoginSchema');
-};
-
 export const mockPutItemLoginSchema = (
   items: ItemForTest[],
   shouldThrowError: boolean,
@@ -1045,15 +1015,9 @@ export const mockGetItemLoginSchemaType = (items: ItemForTest[]): void => {
       const itemId = url.slice(API_HOST.length).split('/')[2];
       const item = items.find(({ id }) => itemId === id);
 
-      const type = item?.itemLoginSchema?.type;
-      if (!type) {
-        return reply({
-          statusCode: StatusCodes.NOT_FOUND,
-        });
-      }
-
+      // if no item login schema is defined, the backend returns null
       return reply({
-        body: type,
+        body: item?.itemLoginSchema?.type ?? null,
         statusCode: StatusCodes.OK,
       });
     },
@@ -2282,4 +2246,80 @@ export const mockGetLinkMetadata = (): void => {
       return reply({ statusCode: StatusCodes.BAD_REQUEST });
     },
   ).as('getLinkMetadata');
+};
+
+export const mockGetOwnMembershipRequests = (
+  currentMember: Member,
+  membershipRequests: CompleteMembershipRequest[],
+): void => {
+  cy.intercept(
+    {
+      method: HttpMethod.Get,
+      url: new RegExp(
+        `${API_HOST}/items/${ID_FORMAT}/memberships/requests/own$`,
+      ),
+    },
+    ({ reply, url }) => {
+      const urlParams = url.split('/');
+      const itemId = urlParams[urlParams.length - 4];
+      return reply(
+        membershipRequests.find(
+          ({ item, member }) =>
+            item.id === itemId && member.id === currentMember.id,
+        ),
+      );
+    },
+  ).as('getOwnMembershipRequests');
+};
+
+export const mockRequestMembership = (): void => {
+  cy.intercept(
+    {
+      method: HttpMethod.Post,
+      url: new RegExp(`${API_HOST}/items/${ID_FORMAT}/memberships/requests$`),
+    },
+    ({ reply }) => reply({ statusCode: StatusCodes.OK }),
+  ).as('requestMembership');
+};
+
+export const mockGetMembershipRequestsForItem = (
+  membershipRequests: CompleteMembershipRequest[],
+): void => {
+  cy.intercept(
+    {
+      method: HttpMethod.Get,
+      url: new RegExp(`${API_HOST}/items/${ID_FORMAT}/memberships/requests$`),
+    },
+    ({ reply, url }) => {
+      const urlParams = url.split('/');
+      const itemId = urlParams[urlParams.length - 3];
+      return reply(membershipRequests.filter(({ item }) => item.id === itemId));
+    },
+  ).as('getMembershipRequestsForItem');
+};
+
+export const mockRejectMembershipRequest = (): void => {
+  cy.intercept(
+    {
+      method: HttpMethod.Delete,
+      url: new RegExp(
+        `${API_HOST}/items/${ID_FORMAT}/memberships/requests/${ID_FORMAT}`,
+      ),
+    },
+    ({ reply }) => {
+      reply({ statusCode: StatusCodes.OK });
+    },
+  ).as('rejectMembershipRequest');
+};
+
+export const mockEnroll = (): void => {
+  cy.intercept(
+    {
+      method: HttpMethod.Post,
+      url: new RegExp(`${API_HOST}/items/${ID_FORMAT}/enroll`),
+    },
+    ({ reply }) => {
+      reply({ statusCode: StatusCodes.OK });
+    },
+  ).as('enroll');
 };

@@ -15,6 +15,8 @@ import { ThemeProvider } from '@graasp/ui';
 
 import * as Sentry from '@sentry/react';
 
+import { getCurrentAccountLang } from '@/utils/member';
+
 import i18nConfig from '../config/i18n';
 import {
   QueryClientProvider,
@@ -36,7 +38,7 @@ const ThemeWrapper = () => {
       langs={langs}
       languageSelectSx={{ mb: 2, mr: 2 }}
       i18n={i18nConfig}
-      defaultDirection={i18nConfig.dir(currentMember?.extra?.lang)}
+      defaultDirection={i18nConfig.dir(getCurrentAccountLang(currentMember))}
     >
       <CssBaseline />
       <ToastContainer stacked position="bottom-left" theme="colored" />
@@ -62,7 +64,7 @@ const Root = (): JSX.Element => (
         <ThemeWrapper />
       </I18nextProvider>
       {import.meta.env.DEV && import.meta.env.MODE !== 'test' && (
-        <ReactQueryDevtools position="bottom-left" />
+        <ReactQueryDevtools buttonPosition="bottom-left" />
       )}
     </QueryClientProvider>
   </HelmetProvider>
