@@ -67,9 +67,9 @@ const MainMenu = (): JSX.Element | null => {
           />
           {individualMenuItems}
         </Box>
-        <Box>
-          <div style={{ margin: '0 auto' }}>{epflLogoBottom}</div>
-        </Box>
+        <Stack alignItems="center" justifyContent="center">
+          {epflLogoBottom}
+        </Stack>
       </Stack>
     </GraaspMainMenu>
   );
