@@ -10,10 +10,8 @@ import { useBuilderTranslation } from '../../config/i18n';
 import {
   CREATE_ITEM_APP_ID,
   CREATE_ITEM_DOCUMENT_ID,
-  CREATE_ITEM_ETHERPAD_ID,
   CREATE_ITEM_FILE_ID,
   CREATE_ITEM_FOLDER_ID,
-  CREATE_ITEM_H5P_ID,
   CREATE_ITEM_LINK_ID,
   CREATE_ITEM_ZIP_ID,
 } from '../../config/selectors';
@@ -124,28 +122,6 @@ const ItemTypeTabs = ({ onTypeChange, initialValue }: Props): JSX.Element => {
         value={InternalItemType.ZIP}
         label={translateBuilder(BUILDER.NEW_ITEM_ZIP_TAB_TEXT)}
         icon={zipIcon}
-      />
-      <Tab
-        id={CREATE_ITEM_H5P_ID}
-        value={ItemType.H5P}
-        label={translateBuilder(BUILDER.NEW_ITEM_H5P_TAB_TEXT)}
-        icon={
-          <ItemIcon
-            alt={translateBuilder(BUILDER.NEW_ITEM_H5P_TAB_TEXT)}
-            type={ItemType.H5P}
-          />
-        }
-      />
-      <Tab
-        id={CREATE_ITEM_ETHERPAD_ID}
-        value={ItemType.ETHERPAD}
-        label={translateBuilder(BUILDER.NEW_ITEM_ETHERPAD_TAB_TEXT)}
-        icon={
-          <ItemIcon
-            alt={translateBuilder(BUILDER.NEW_ITEM_ETHERPAD_TAB_TEXT)}
-            type={ItemType.ETHERPAD}
-          />
-        }
       />
     </StyledTabs>
   );
