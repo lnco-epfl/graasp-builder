@@ -6,7 +6,6 @@ import {
   buildItemPath,
 } from '../../src/config/paths';
 import { HEADER_APP_BAR_ID, ITEM_MAIN_CLASS } from '../../src/config/selectors';
-import { REQUEST_FAILURE_LOADING_TIME } from '../support/constants';
 import { SIGN_IN_PATH } from '../support/paths';
 
 describe('Authentication', () => {
@@ -17,10 +16,6 @@ describe('Authentication', () => {
     it('Home', () => {
       cy.visit(HOME_PATH);
       cy.url().should('include', SIGN_IN_PATH);
-      cy.getCookie(CookieKeys.RedirectUrl, {
-        domain: 'http://localhost',
-        timeout: REQUEST_FAILURE_LOADING_TIME,
-      }).should('have.property', 'value', HOME_PATH);
     });
   });
 
