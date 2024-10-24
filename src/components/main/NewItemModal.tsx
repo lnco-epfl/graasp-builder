@@ -31,8 +31,8 @@ import { isItemValid } from '../../utils/item';
 import CancelButton from '../common/CancelButton';
 import FileUploader from '../file/FileUploader';
 import AppForm from '../item/form/AppForm';
-import DocumentForm from '../item/form/DocumentForm';
 import FolderForm from '../item/form/FolderForm';
+import DocumentForm from '../item/form/document/DocumentForm';
 import LinkForm from '../item/form/link/LinkForm';
 import ImportZip from './ImportZip';
 import ItemTypeTabs from './ItemTypeTabs';
@@ -114,7 +114,6 @@ const NewItemModal = ({
       // todo: notify user
       return false;
     }
-
     // todo: fix types
     return submitAndDisableConfirmButtonFor(
       () =>
@@ -150,10 +149,7 @@ const NewItemModal = ({
             <Typography variant="h6" color="primary">
               {translateBuilder(BUILDER.CREATE_ITEM_NEW_FOLDER_TITLE)}
             </Typography>
-            <FolderForm
-              setChanges={updateItem}
-              updatedProperties={updatedPropertiesPerType[ItemType.FOLDER]}
-            />
+            <FolderForm setChanges={updateItem} showThumbnail />
           </>
         );
       case ItemType.S3_FILE:
@@ -208,10 +204,7 @@ const NewItemModal = ({
             <Typography variant="h6" color="primary">
               {translateBuilder(BUILDER.CREATE_NEW_ITEM_DOCUMENT_TITLE)}
             </Typography>
-            <DocumentForm
-              setChanges={updateItem}
-              updatedProperties={updatedPropertiesPerType[ItemType.DOCUMENT]}
-            />
+            <DocumentForm setChanges={updateItem} />
           </>
         );
       default:

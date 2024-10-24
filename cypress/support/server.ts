@@ -29,7 +29,7 @@ import { FAILURE_MESSAGES } from '@graasp/translations';
 import { StatusCodes } from 'http-status-codes';
 import { v4 as uuidv4, v4 } from 'uuid';
 
-import { SETTINGS } from '../../src/config/constants';
+import { ITEM_PAGE_SIZE, SETTINGS } from '../../src/config/constants';
 import { getMemberById } from '../../src/utils/member';
 import {
   buildAppApiAccessTokenRoute,
@@ -67,10 +67,8 @@ const {
   buildPostItemLoginSignInRoute,
   buildGetItemLoginSchemaRoute,
   buildGetItemMembershipsForItemsRoute,
-  buildGetItemTagsRoute,
   buildPostItemTagRoute,
-  buildPatchMemberRoute,
-  SHARED_ITEM_WITH_ROUTE,
+  buildPatchCurrentMemberRoute,
   buildEditItemMembershipRoute,
   buildDeleteItemMembershipRoute,
   buildPostItemFlagRoute,
@@ -78,7 +76,6 @@ const {
   buildExportItemChatRoute,
   buildPostItemChatMessageRoute,
   buildClearItemChatRoute,
-  GET_RECYCLED_ITEMS_DATA_ROUTE,
   buildDeleteItemTagRoute,
   buildDeleteItemsRoute,
   buildGetMembersByIdRoute,
@@ -92,6 +89,7 @@ const {
   buildGetItemInvitationsForItemRoute,
   buildDeleteInvitationRoute,
   buildPatchInvitationRoute,
+  buildPostUserCSVUploadWithTemplateRoute,
   buildResendInvitationRoute,
   buildPostUserCSVUploadRoute,
   buildGetPublishedItemsForMemberRoute,
@@ -190,46 +188,38 @@ export const mockGetAccessibleItems = (items: ItemForTest[]): void => {
   ).as('getAccessibleItems');
 };
 
-export const mockGetRecycledItems = (
+export const mockGetOwnRecycledItemData = (
   recycledItemData: RecycledItemData[],
   shouldThrowError: boolean,
 ): void => {
   cy.intercept(
     {
       method: HttpMethod.Get,
-      url: `${API_HOST}/${GET_RECYCLED_ITEMS_DATA_ROUTE}`,
+      pathname: `/items/recycled`,
     },
-    (req) => {
+    ({ reply, url }) => {
       if (shouldThrowError) {
-        req.reply({ statusCode: StatusCodes.BAD_REQUEST });
+        reply({ statusCode: StatusCodes.BAD_REQUEST });
         return;
       }
 
-      req.reply(recycledItemData);
-    },
-  ).as('getRecycledItems');
-};
+      const params = new URL(url).searchParams;
 
-export const mockGetSharedItems = ({
-  items,
-  member,
-}: {
-  items: ItemForTest[];
-  member?: Member;
-}): void => {
-  cy.intercept(
-    {
-      method: HttpMethod.Get,
-      url: `${API_HOST}/${SHARED_ITEM_WITH_ROUTE}`,
+      const page = parseInt(params.get('page') ?? '1', 10);
+      const pageSize = parseInt(params.get('pageSize') ?? '10', 10);
+
+      const result = recycledItemData.slice(
+        (page - 1) * pageSize,
+        page * pageSize,
+      );
+
+      reply({
+        data: result,
+        totalCount: recycledItemData.length,
+        pagination: { page: 1, pageSize: ITEM_PAGE_SIZE },
+      });
     },
-    (req) => {
-      if (!member) {
-        return req.reply({ statusCode: StatusCodes.UNAUTHORIZED });
-      }
-      const shared = items.filter(({ creator }) => creator?.id !== member.id);
-      return req.reply(shared);
-    },
-  ).as('getSharedItems');
+  ).as('getOwnRecycledItemData');
 };
 
 export const mockPostItem = (
@@ -766,7 +756,7 @@ export const mockEditMember = (
   cy.intercept(
     {
       method: HttpMethod.Patch,
-      url: new RegExp(`${API_HOST}/${buildPatchMemberRoute(ID_FORMAT)}`),
+      url: new RegExp(`${API_HOST}/${buildPatchCurrentMemberRoute()}`),
     },
     ({ reply }) => {
       if (shouldThrowError) {
@@ -1108,39 +1098,6 @@ export const mockDeleteItemMembershipForItem = (): void => {
       reply('true');
     },
   ).as('deleteItemMembership');
-};
-
-export const mockGetItemTags = (items: ItemForTest[]): void => {
-  cy.intercept(
-    {
-      method: HttpMethod.Get,
-      url: new RegExp(`${API_HOST}/${buildGetItemTagsRoute(ID_FORMAT)}$`),
-    },
-    ({ reply, url }) => {
-      const itemId = url.slice(API_HOST.length).split('/')[2];
-      const result = items.find(({ id }) => id === itemId)?.tags || [];
-      reply(result);
-    },
-  ).as('getItemTags');
-};
-
-export const mockGetItemsTags = (items: ItemForTest[]): void => {
-  cy.intercept(
-    {
-      method: HttpMethod.Get,
-      url: `${API_HOST}/items/tags?id=*`,
-    },
-    ({ reply, url }) => {
-      const ids = new URL(url).searchParams.getAll('id');
-      const result = ids.map(
-        (itemId) =>
-          items.find(({ id }) => id === itemId)?.tags || [
-            { statusCode: StatusCodes.NOT_FOUND },
-          ],
-      );
-      reply(result);
-    },
-  ).as('getItemsTags');
 };
 
 export const mockPostItemTag = (
@@ -1844,15 +1801,30 @@ export const mockUploadInvitationCSV = (
       if (shouldThrowError) {
         return reply({ statusCode: StatusCodes.BAD_REQUEST });
       }
-      const query = new URL(url).searchParams;
-      if (query.get('templateId')) {
-        return reply([{ groupName: 'A', memberships: [], invitations: [] }]);
-      }
       const itemId = url.split('/').at(-3);
       const item = items.find(({ id }) => id === itemId);
       return reply({ memberships: item.memberships });
     },
   ).as('uploadCSV');
+};
+export const mockUploadInvitationCSVWithTemplate = (
+  items: ItemForTest[],
+  shouldThrowError: boolean,
+): void => {
+  cy.intercept(
+    {
+      method: HttpMethod.Post,
+      url: new RegExp(
+        `${API_HOST}/${buildPostUserCSVUploadWithTemplateRoute(ID_FORMAT)}`,
+      ),
+    },
+    ({ reply }) => {
+      if (shouldThrowError) {
+        return reply({ statusCode: StatusCodes.BAD_REQUEST });
+      }
+      return reply([{ groupName: 'A', memberships: [], invitations: [] }]);
+    },
+  ).as('uploadCSVWithTemplate');
 };
 
 export const mockGetPublicationStatus = (status: PublicationStatus): void => {

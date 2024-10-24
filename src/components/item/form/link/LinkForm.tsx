@@ -180,11 +180,10 @@ const LinkForm = ({
         onClear={onClickClearURL}
       />
       <NameForm
-        item={item}
+        name={updatedProperties?.name ?? item?.name}
         autoFocus={false}
         required
         setChanges={onChange}
-        updatedProperties={updatedProperties}
       />
       <LinkDescriptionField
         value={updatedProperties.description}

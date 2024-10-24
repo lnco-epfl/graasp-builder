@@ -48,11 +48,9 @@ import {
   mockGetItemLoginSchema,
   mockGetItemLoginSchemaType,
   mockGetItemMembershipsForItem,
-  mockGetItemTags,
   mockGetItemThumbnailUrl,
   mockGetItemValidationGroups,
   mockGetItems,
-  mockGetItemsTags,
   mockGetLatestValidationGroup,
   mockGetLinkMetadata,
   mockGetManyPublishItemInformations,
@@ -62,12 +60,11 @@ import {
   mockGetMembersBy,
   mockGetMembershipRequestsForItem,
   mockGetOwnMembershipRequests,
+  mockGetOwnRecycledItemData,
   mockGetParents,
   mockGetPublicationStatus,
   mockGetPublishItemInformations,
   mockGetPublishItemsForMember,
-  mockGetRecycledItems,
-  mockGetSharedItems,
   mockGetShortLinksItem,
   mockImportH5p,
   mockImportZip,
@@ -100,6 +97,7 @@ import {
   mockUnpublishItem,
   mockUpdatePassword,
   mockUploadInvitationCSV,
+  mockUploadInvitationCSVWithTemplate,
   mockUploadItem,
 } from './server';
 
@@ -187,8 +185,6 @@ Cypress.Commands.add(
 
     mockGetAccessibleItems(cachedItems);
 
-    mockGetSharedItems({ items: cachedItems, member: currentMember });
-
     mockPostItem(cachedItems, postItemError);
 
     mockDeleteItems(allItems, deleteItemsError);
@@ -240,10 +236,6 @@ Cypress.Commands.add(
 
     mockGetItemMembershipsForItem(items, currentMember);
 
-    mockGetItemTags(items);
-
-    mockGetItemsTags(items);
-
     mockPostItemTag(cachedItems, currentMember, postItemTagError);
 
     mockDeleteItemTag(deleteItemTagError);
@@ -282,7 +274,7 @@ Cypress.Commands.add(
 
     mockRecycleItems(items, recycleItemsError);
 
-    mockGetRecycledItems(recycledItemData, getRecycledItemsError);
+    mockGetOwnRecycledItemData(recycledItemData, getRecycledItemsError);
 
     mockRestoreItems(items, restoreItemsError);
 
@@ -320,6 +312,8 @@ Cypress.Commands.add(
     mockDeleteInvitation(items, deleteInvitationError);
 
     mockUploadInvitationCSV(items, false);
+
+    mockUploadInvitationCSVWithTemplate(items, false);
 
     mockGetPublicationStatus(itemPublicationStatus);
     mockPublishItem(items);
