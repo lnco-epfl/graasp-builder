@@ -225,7 +225,7 @@
   "PUBLIC_VISIBILITY_MODAL_DESCRIPTION": "La visibilità di questo elemento non è pubblica. Per pubblicarlo nella Libreria, devi impostare la sua visibilità su pubblica. Questa azione consentirà a qualsiasi utente di accedere al tuo elemento. Vuoi continuare?",
   "PUBLIC_VISIBILITY_MODAL_VALIDATE_BUTTON": "Rendilo pubblico",
   "UPDATE_VISIBILITY_MODAL_TITLE": "Modifica la visibilità dell'elemento pubblicato",
-  "UPDATE_VISIBILITY_MODAL_DESCRIPTION": "Questo elemento è attualmente pubblicato nella libreria Graasp. Se ne modifichi la visibilità, l'elemento verrà annullato dalla pubblicazione e non sarà più disponibile nella libreria. Vuoi continuare?",
+  "UPDATE_VISIBILITY_MODAL_DESCRIPTION": "Questo elemento è attualmente pubblicato nella libreria LNCO.ai. Se ne modifichi la visibilità, l'elemento verrà annullato dalla pubblicazione e non sarà più disponibile nella libreria. Vuoi continuare?",
   "UPDATE_VISIBILITY_MODAL_VALIDATE_BUTTON": "Rendilo {{visibility}}",
   "LINK_DEFAULT_NAME": "Il mio link",
   "MOVE_BUTTON": "Sposta",
