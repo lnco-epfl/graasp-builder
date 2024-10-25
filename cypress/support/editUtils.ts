@@ -23,9 +23,7 @@ export const editItem = (
   cy.get(`${container} .${EDIT_ITEM_BUTTON_CLASS}`).click();
 
   switch (type) {
-    case ItemType.H5P:
     case ItemType.APP:
-    case ItemType.ETHERPAD:
     case ItemType.LINK:
     case ItemType.LOCAL_FILE:
     case ItemType.S3_FILE:
