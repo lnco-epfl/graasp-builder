@@ -2,34 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [2.48.0](https://github.com/graasp/graasp-builder/compare/v2.47.1...v2.48.0) (2024-12-10)
-
-### Features
-
-- show delete item login schema alert to permanently remove data ([#1577](https://github.com/graasp/graasp-builder/issues/1577)) ([71e776b](https://github.com/graasp/graasp-builder/commit/71e776b0a9413a31ca2dd0be6d9985bbdd8c2f05))
-
-### Bug Fixes
-
-- color issues and prefix for new player ([#1586](https://github.com/graasp/graasp-builder/issues/1586)) ([d93fa3d](https://github.com/graasp/graasp-builder/commit/d93fa3ded5ee64d24612f309c3923340acdce8bf))
-- link crashes iframe ([#1591](https://github.com/graasp/graasp-builder/issues/1591)) ([bdfa13c](https://github.com/graasp/graasp-builder/commit/bdfa13c9c2e47a02c4a5f18f1717d7b6efb9ded0))
-- remove display name ([#1578](https://github.com/graasp/graasp-builder/issues/1578)) ([f9f701a](https://github.com/graasp/graasp-builder/commit/f9f701aa067a0bd90c3ad4b3abc3ec904d82c8c4))
-
-## [2.47.1](https://github.com/graasp/graasp-builder/compare/v2.47.0...v2.47.1) (2024-11-20)
-
-### Bug Fixes
-
-- **deps:** update mui (non-major) ([#1558](https://github.com/graasp/graasp-builder/issues/1558)) ([28e695d](https://github.com/graasp/graasp-builder/commit/28e695d2a69d90be988672d0bec589b6c51d149e))
-
-## [2.47.0](https://github.com/graasp/graasp-builder/compare/v2.46.0...v2.47.0) (2024-11-19)
-
-### Features
-
-- remove is published badge ([#1569](https://github.com/graasp/graasp-builder/issues/1569)) ([420602c](https://github.com/graasp/graasp-builder/commit/420602caae9b31b1b5d0a50c13a68090e80815f7))
-
-### Bug Fixes
-
-- **deps:** update dependency uuid to v11 ([#1554](https://github.com/graasp/graasp-builder/issues/1554)) ([45f25e4](https://github.com/graasp/graasp-builder/commit/45f25e4a31d979ffac4656b1ac3ba1e22ddf69b2))
-
 ## [2.46.0](https://github.com/graasp/graasp-builder/compare/v2.45.0...v2.46.0) (2024-11-12)
 
 ### Features
