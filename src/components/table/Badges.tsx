@@ -66,7 +66,6 @@ const Badges = ({ itemsStatuses, data: item }: ChildCompProps): JSX.Element => {
       isHiddenTooltip={t(BUILDER.STATUS_TOOLTIP_IS_HIDDEN)}
       isPublic={isPublic}
       isPublicTooltip={t(BUILDER.STATUS_TOOLTIP_IS_PUBLIC)}
-      isPublishedTooltip={t(BUILDER.STATUS_TOOLTIP_IS_PUBLISHED)}
       isCollapsible={isCollapsible}
       isCollapsibleTooltip={t(BUILDER.STATUS_TOOLTIP_IS_COLLAPSIBLE)}
       showChatbox={showChatbox}
