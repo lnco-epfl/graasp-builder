@@ -12,10 +12,9 @@ import {
   CREATE_ITEM_CLOSE_BUTTON_ID,
   CREATE_ITEM_DOCUMENT_ID,
   CREATE_ITEM_FILE_ID,
-  CREATE_ITEM_H5P_ID,
+  CREATE_ITEM_LINK_ID,
   CREATE_ITEM_ZIP_ID,
   DASHBOARD_UPLOADER_ID,
-  H5P_DASHBOARD_UPLOADER_ID,
   ZIP_DASHBOARD_UPLOADER_ID,
   buildDataCyWrapper,
 } from '../../src/config/selectors';
@@ -73,10 +72,7 @@ export const createFile = (
 
 // todo: question: only used by import zip ??
 export const createItem = (
-  payload:
-    | DiscriminatedItem
-    | ZIPInternalItem
-    | { type: 'h5p'; filepath: string },
+  payload: DiscriminatedItem | ZIPInternalItem,
   options?: { confirm?: boolean },
 ): void => {
   cy.get(`#${CREATE_ITEM_BUTTON_ID}`).click();
@@ -108,16 +104,6 @@ export const createItem = (
 
       // drag-drop a file in the uploader
       cy.attachFile(cy.get(`#${ZIP_DASHBOARD_UPLOADER_ID}`), payload?.filepath);
-      break;
-    }
-    case ItemType.H5P: {
-      cy.get(`#${CREATE_ITEM_H5P_ID}`).click();
-
-      // drag-drop a file in the uploader
-      cy.attachFile(
-        cy.get(`#${H5P_DASHBOARD_UPLOADER_ID}`),
-        (payload as { filepath: string })?.filepath,
-      );
       break;
     }
     case ItemType.DOCUMENT:

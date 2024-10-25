@@ -18,13 +18,11 @@ import { useBuilderTranslation, useCommonTranslation } from '../../config/i18n';
 import { CREATE_ITEM_CLOSE_BUTTON_ID } from '../../config/selectors';
 import { InternalItemType, NewItemTabType } from '../../config/types';
 import { BUILDER } from '../../langs/constants';
-import { EtherpadForm } from '../item/form/EtherpadForm';
 import AppForm from '../item/form/app/AppForm';
 import { DocumentCreateForm } from '../item/form/document/DocumentCreateForm';
 import { UploadFileModalContent } from '../item/form/file/UploadFileModalContent';
 import { FolderCreateForm } from '../item/form/folder/FolderCreateForm';
 import { LinkForm } from '../item/form/link/LinkForm';
-import ImportH5P from './ImportH5P';
 import ImportZip from './ImportZip';
 import ItemTypeTabs from './ItemTypeTabs';
 
@@ -134,16 +132,6 @@ const NewItemModal = ({
             parentId={parentId}
             previousItemId={previousItemId}
           />
-        );
-        break;
-      }
-      case ItemType.ETHERPAD: {
-        content = <EtherpadForm onClose={handleClose} parentId={parentId} />;
-        break;
-      }
-      case ItemType.H5P: {
-        content = (
-          <ImportH5P onClose={handleClose} previousItemId={previousItemId} />
         );
         break;
       }
