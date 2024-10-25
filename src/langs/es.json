@@ -225,7 +225,7 @@
   "PUBLIC_VISIBILITY_MODAL_DESCRIPTION": "La visibilidad de este elemento no es pública. Para publicarlo en la Biblioteca, debes establecer su visibilidad en pública. Esta acción permitirá que cualquier usuario tenga acceso a su artículo. ¿Quieres continuar?",
   "PUBLIC_VISIBILITY_MODAL_VALIDATE_BUTTON": "Hazlo público",
   "UPDATE_VISIBILITY_MODAL_TITLE": "Cambiar la visibilidad del elemento publicado",
-  "UPDATE_VISIBILITY_MODAL_DESCRIPTION": "Este elemento está actualmente publicado en la biblioteca Graasp. Si cambia su visibilidad, el artículo dejará de publicarse y ya no estará disponible en la biblioteca. ¿Te gustaria continuar?",
+  "UPDATE_VISIBILITY_MODAL_DESCRIPTION": "Este elemento está actualmente publicado en la biblioteca LNCO.ai. Si cambia su visibilidad, el artículo dejará de publicarse y ya no estará disponible en la biblioteca. ¿Te gustaria continuar?",
   "UPDATE_VISIBILITY_MODAL_VALIDATE_BUTTON": "Hazlo {{visibility}}",
   "LINK_DEFAULT_NAME": "Mi enlace",
   "MOVE_BUTTON": "Mover",
