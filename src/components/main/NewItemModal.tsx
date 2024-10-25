@@ -19,27 +19,21 @@ import {
   ItemType,
   LinkItemType,
 } from '@graasp/sdk';
-import { COMMON } from '@graasp/translations';
 import { Button } from '@graasp/ui';
 
 import { DOUBLE_CLICK_DELAY_MS } from '../../config/constants';
-import { useBuilderTranslation, useCommonTranslation } from '../../config/i18n';
+import { useBuilderTranslation } from '../../config/i18n';
 import { mutations } from '../../config/queryClient';
-import {
-  CREATE_ITEM_CLOSE_BUTTON_ID,
-  ITEM_FORM_CONFIRM_BUTTON_ID,
-} from '../../config/selectors';
+import { ITEM_FORM_CONFIRM_BUTTON_ID } from '../../config/selectors';
 import { InternalItemType, NewItemTabType } from '../../config/types';
 import { BUILDER } from '../../langs/constants';
 import { isItemValid } from '../../utils/item';
 import CancelButton from '../common/CancelButton';
 import FileUploader from '../file/FileUploader';
 import AppForm from '../item/form/AppForm';
-import useEtherpadForm from '../item/form/EtherpadForm';
 import DocumentForm from '../item/form/document/DocumentForm';
 import { FolderCreateForm } from '../item/form/folder/FolderCreateForm';
 import { LinkForm } from '../item/form/link/LinkForm';
-import ImportH5P from './ImportH5P';
 import ImportZip from './ImportZip';
 import ItemTypeTabs from './ItemTypeTabs';
 
@@ -79,9 +73,6 @@ const NewItemModal = ({
   previousItemId,
 }: Props): JSX.Element => {
   const { t: translateBuilder } = useBuilderTranslation();
-  const { t: translateCommon } = useCommonTranslation();
-
-  const { padName, EtherpadForm } = useEtherpadForm();
 
   const [isConfirmButtonDisabled, setConfirmButtonDisabled] = useState(false);
   const [selectedItemType, setSelectedItemType] = useState<NewItemTabType>(
@@ -93,7 +84,6 @@ const NewItemModal = ({
     useState<PropertiesPerType>(DEFAULT_PROPERTIES);
 
   const { mutate: postItem } = mutations.usePostItem();
-  const { mutate: postEtherpad } = mutations.usePostEtherpad();
   const { itemId: parentId } = useParams();
 
   const submitAndDisableConfirmButtonFor = (
@@ -137,17 +127,6 @@ const NewItemModal = ({
     );
   };
 
-  const submitEtherpad = () => {
-    if (!padName) {
-      return false;
-    }
-
-    return submitAndDisableConfirmButtonFor(
-      () => postEtherpad({ parentId, name: padName }),
-      DOUBLE_CLICK_DELAY_MS,
-    );
-  };
-
   const updateItem = (
     item: Partial<DiscriminatedItem> & { thumbnail?: Blob },
   ) => {
@@ -187,27 +166,6 @@ const NewItemModal = ({
             <ImportZip />
           </>
         );
-      case ItemType.H5P:
-        return (
-          <>
-            <Typography variant="h6" color="primary">
-              {translateBuilder(BUILDER.IMPORT_H5P_TITLE)}
-            </Typography>
-            <ImportH5P
-              onComplete={handleClose}
-              previousItemId={previousItemId}
-            />
-          </>
-        );
-      case ItemType.ETHERPAD:
-        return (
-          <>
-            <Typography variant="h6" color="primary">
-              {translateBuilder(BUILDER.CREATE_NEW_ITEM_ETHERPAD_TITLE)}
-            </Typography>
-            <EtherpadForm />
-          </>
-        );
       case ItemType.APP:
         return (
           <>
@@ -234,20 +192,7 @@ const NewItemModal = ({
   // folders and links are handled before
   const renderActions = () => {
     switch (selectedItemType) {
-      case ItemType.ETHERPAD:
-        return (
-          <>
-            <CancelButton onClick={handleClose} />
-            <Button
-              onClick={submitEtherpad}
-              id={ITEM_FORM_CONFIRM_BUTTON_ID}
-              disabled={!padName}
-              type="submit"
-            >
-              {translateBuilder(BUILDER.CREATE_ITEM_ADD_BUTTON)}
-            </Button>
-          </>
-        );
+      case ItemType.FOLDER:
       case ItemType.APP:
       case ItemType.DOCUMENT:
         return (
@@ -269,12 +214,6 @@ const NewItemModal = ({
       case ItemType.S3_FILE:
       case ItemType.LOCAL_FILE:
       case InternalItemType.ZIP:
-      case ItemType.H5P:
-        return (
-          <Button id={CREATE_ITEM_CLOSE_BUTTON_ID} onClick={handleClose}>
-            {translateCommon(COMMON.CLOSE_BUTTON)}
-          </Button>
-        );
       default:
         return null;
     }

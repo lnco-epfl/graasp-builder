@@ -76,8 +76,6 @@ const EditModal = ({ item, onClose, open }: Props): JSX.Element => {
         return <EditShortcutForm item={item} setChanges={setChanges} />;
       case ItemType.LINK:
       case ItemType.APP:
-      case ItemType.ETHERPAD:
-      case ItemType.H5P:
       default:
         return <BaseItemForm setChanges={setChanges} item={item} />;
     }

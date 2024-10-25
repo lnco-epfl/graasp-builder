@@ -2,9 +2,7 @@ import {
   ItemTypeUnion,
   PackedAppItemFactory,
   PackedDocumentItemFactory,
-  PackedEtherpadItemFactory,
   PackedFolderItemFactory,
-  PackedH5PItemFactory,
   PackedLinkItemFactory,
   PackedLocalFileItemFactory,
   PackedS3FileItemFactory,
@@ -33,10 +31,6 @@ export const createPublicItemByType = (
       return PackedS3FileItemFactory({}, publicVisibility);
     case 'shortcut':
       return PackedShortcutItemFactory({}, publicVisibility);
-    case 'h5p':
-      return PackedH5PItemFactory({}, publicVisibility);
-    case 'etherpad':
-      return PackedEtherpadItemFactory({}, publicVisibility);
     default:
       throw new Error(
         `Item Type "${itemType}" is unknown in "createPublicItemWithType"`,

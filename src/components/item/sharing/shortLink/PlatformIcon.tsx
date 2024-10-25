@@ -23,7 +23,7 @@ const PlatformIcon = ({
       return <LibraryIcon size={size} primaryColor={accentColor} />;
     default:
       console.error(`Undefined platform ${platform}.`);
-      return <GraaspLogo height={size} sx={{ fill: accentColor }} />;
+      return <GraaspLogo height={size} />;
   }
 };
 

@@ -15,7 +15,6 @@ import { useBuilderTranslation } from '../../../config/i18n';
 import { hooks } from '../../../config/queryClient';
 import { ITEM_CHATBOX_BUTTON_ID } from '../../../config/selectors';
 import { BUILDER } from '../../../langs/constants';
-import PublishButton from '../../common/PublishButton';
 import ShareButton from '../../common/ShareButton';
 import { useLayoutContext } from '../../context/LayoutContext';
 import EditButton from '../edit/EditButton';
@@ -42,9 +41,6 @@ const ItemHeaderActions = ({ itemId }: Props): JSX.Element | null => {
 
   const canWrite = item?.permission
     ? PermissionLevelCompare.gte(item.permission, PermissionLevel.Write)
-    : false;
-  const canAdmin = item?.permission
-    ? PermissionLevelCompare.gte(item.permission, PermissionLevel.Admin)
     : false;
 
   const onClickChatbox = () => {
@@ -86,7 +82,6 @@ const ItemHeaderActions = ({ itemId }: Props): JSX.Element | null => {
           id={ITEM_CHATBOX_BUTTON_ID}
           onClick={onClickChatbox}
         />
-        {canAdmin && <PublishButton itemId={item.id} />}
         {canWrite && <ItemSettingsButton itemId={item.id} />}
         {/* prevent moving from top header to avoid confusion */}
         <Actions item={item} />
