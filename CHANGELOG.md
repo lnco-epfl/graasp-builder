@@ -2,7 +2,6 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-<<<<<<< HEAD
 ## [2.50.0](https://github.com/graasp/graasp-builder/compare/v2.49.0...v2.50.0) (2024-12-20)
 
 ### Features
@@ -34,8 +33,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 - force release of 2.49.0 ([b513c2f](https://github.com/graasp/graasp-builder/commit/b513c2fde787905b6fc195bb7787738cc013a224))
 
-=======
->>>>>>> c598ad5c (feat: major lay-out update for LNCO.ai and removal of Etherpad and H5P functionalities)
 ## [2.48.0](https://github.com/graasp/graasp-builder/compare/v2.47.1...v2.48.0) (2024-12-10)
 
 ### Features
