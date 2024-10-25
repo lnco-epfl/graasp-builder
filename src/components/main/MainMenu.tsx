@@ -1,54 +1,24 @@
+// Note: On Rebasing, lot of the imports are related to the tutorial link at the bottom, can be removed
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import {
-  Box,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Stack,
-} from '@mui/material';
+import { Box, Stack } from '@mui/material';
 
 import { AccountType } from '@graasp/sdk';
-import { MainMenu as GraaspMainMenu, MenuItem } from '@graasp/ui';
+import { EpflLogo, MainMenu as GraaspMainMenu, MenuItem } from '@graasp/ui';
 
-import {
-  BookOpenTextIcon,
-  BookmarkIcon,
-  HomeIcon,
-  LibraryBigIcon,
-  TrashIcon,
-} from 'lucide-react';
+import { BookmarkIcon, HomeIcon, TrashIcon } from 'lucide-react';
 
 import { hooks } from '@/config/queryClient';
 
-import { TUTORIALS_LINK } from '../../config/constants';
 import { useBuilderTranslation } from '../../config/i18n';
 import {
   BOOKMARKED_ITEMS_PATH,
   HOME_PATH,
-  PUBLISHED_ITEMS_PATH,
   RECYCLE_BIN_PATH,
 } from '../../config/paths';
 import { BUILDER } from '../../langs/constants';
 
-const ResourceLinks = () => {
-  const { t } = useBuilderTranslation();
-  return (
-    <ListItem disablePadding>
-      <ListItemButton
-        href={TUTORIALS_LINK}
-        target="_blank"
-        data-umami-event="sidebar-tutorials"
-      >
-        <ListItemIcon>
-          <BookOpenTextIcon />
-        </ListItemIcon>
-        <ListItemText>{t(BUILDER.TUTORIALS)}</ListItemText>
-      </ListItemButton>
-    </ListItem>
-  );
-};
+const epflLogoBottom = <EpflLogo height={20} />;
 
 const MainMenu = (): JSX.Element | null => {
   const { t } = useBuilderTranslation();
@@ -75,13 +45,6 @@ const MainMenu = (): JSX.Element | null => {
           icon={<BookmarkIcon />}
         />
         <MenuItem
-          dataUmamiEvent="sidebar-published"
-          onClick={() => goTo(PUBLISHED_ITEMS_PATH)}
-          selected={pathname === PUBLISHED_ITEMS_PATH}
-          text={t(BUILDER.NAVIGATION_PUBLISHED_ITEMS_TITLE)}
-          icon={<LibraryBigIcon />}
-        />
-        <MenuItem
           dataUmamiEvent="sidebar-trash"
           onClick={() => goTo(RECYCLE_BIN_PATH)}
           selected={pathname === RECYCLE_BIN_PATH}
@@ -104,9 +67,9 @@ const MainMenu = (): JSX.Element | null => {
           />
           {individualMenuItems}
         </Box>
-        <Box>
-          <ResourceLinks />
-        </Box>
+        <Stack alignItems="center" justifyContent="center">
+          {epflLogoBottom}
+        </Stack>
       </Stack>
     </GraaspMainMenu>
   );

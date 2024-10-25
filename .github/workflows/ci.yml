@@ -3,7 +3,7 @@ name: CI checks
 on:
   push:
     branches:
-      - "main"
+      - 'main'
   merge_group:
   pull_request:
 
