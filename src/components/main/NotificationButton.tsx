@@ -29,12 +29,12 @@ export const NotificationButton = (): JSX.Element | null => {
 
   return (
     <MentionButton
-      color="white"
       badgeColor="primary"
       useMentions={hooks.useMentions}
       patchMentionFunction={patchMentionFunction}
       deleteMentionFunction={deleteMentionFunction}
       clearAllMentionsFunction={clearAllMentionsFunction}
+      color="inherit"
     />
   );
 };
