@@ -50,12 +50,7 @@ const EditModal = ({ item, onClose, open }: Props): JSX.Element => {
     if (item.type === ItemType.DOCUMENT) {
       return <DocumentEditForm onClose={onClose} item={item} />;
     }
-    if (
-      item.type === ItemType.LINK ||
-      item.type === ItemType.ETHERPAD ||
-      item.type === ItemType.APP ||
-      item.type === ItemType.H5P
-    ) {
+    if (item.type === ItemType.LINK || item.type === ItemType.APP) {
       return <BaseItemForm onClose={onClose} item={item} />;
     }
 
