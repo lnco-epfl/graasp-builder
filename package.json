@@ -77,8 +77,6 @@
     "pre-commit": "yarn prettier:check && yarn lint && yarn type-check",
     "prettier:check": "prettier --check '{src,cypress}/**/*.{js,ts,tsx,json}'",
     "prettier:write": "prettier --write '{src,cypress}/**/*.{js,ts,tsx,json}'",
-    "prettier:check": "prettier --check '{src,cypress}/**/*.{js,ts,tsx,json}'",
-    "prettier:write": "prettier --write '{src,cypress}/**/*.{js,ts,tsx,json}'",
     "type-check": "tsc --noEmit && tsc --noEmit -p cypress/tsconfig.json",
     "check": "yarn prettier:check && yarn lint && yarn type-check",
     "postinstall": "husky install",
