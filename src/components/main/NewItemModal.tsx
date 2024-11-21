@@ -29,7 +29,7 @@ import { InternalItemType, NewItemTabType } from '../../config/types';
 import { BUILDER } from '../../langs/constants';
 import { isItemValid } from '../../utils/item';
 import CancelButton from '../common/CancelButton';
-import AppForm from '../item/form/AppForm';
+import AppForm from '../item/form/app/AppForm';
 import DocumentForm from '../item/form/document/DocumentForm';
 import { UploadFileModalContent } from '../item/form/file/UploadFileModalContent';
 import { FolderCreateForm } from '../item/form/folder/FolderCreateForm';
@@ -73,7 +73,6 @@ const NewItemModal = ({
   previousItemId,
 }: Props): JSX.Element => {
   const { t: translateBuilder } = useBuilderTranslation();
-  const { t: translateCommon } = useCommonTranslation();
 
   const [isConfirmButtonDisabled, setConfirmButtonDisabled] = useState(false);
   const [selectedItemType, setSelectedItemType] = useState<NewItemTabType>(
@@ -152,15 +151,6 @@ const NewItemModal = ({
               {translateBuilder(BUILDER.IMPORT_ZIP_TITLE)}
             </Typography>
             <ImportZip />
-          </>
-        );
-      case ItemType.APP:
-        return (
-          <>
-            <Typography variant="h6" color="primary">
-              {translateBuilder(BUILDER.CREATE_NEW_ITEM_APP_TITLE)}
-            </Typography>
-            <AppForm onChange={updateItem} />
           </>
         );
       case ItemType.DOCUMENT:
